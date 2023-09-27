@@ -1,27 +1,16 @@
-import { ConfigProvider, theme } from "antd";
-import { Quicksand } from "next/font/google";
-import React from "react";
+import { ReactNode } from 'react';
 
-import StyledComponentsRegistry from "./lib/AntdRegistry";
-import themeConfig from "./theme/themeConfig";
+import '@/styles/globals.css';
 
-import "./globals.css";
+import 'antd/dist/reset.css';
 
-const quicksand = Quicksand({ subsets: ["latin"] });
-
-export const metadata = {
-  title: "Influencer",
-  description: "desc here ...",
+type Props = {
+  children: ReactNode;
 };
 
-const RootLayout = ({ children }: { children: React.ReactNode }) => (
-  <html lang="en">
-    <body className={quicksand.className}>
-      <ConfigProvider theme={{ ...themeConfig, algorithm: theme.darkAlgorithm }}>
-        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-      </ConfigProvider>
-    </body>
-  </html>
-);
-
-export default RootLayout;
+// Even though this component is just passing its children through, the presence
+// of this file fixes an issue in Next.js 13.4 where link clicks that switch
+// the locale would otherwise cause a full reload.
+export default function RootLayout({ children }: Props) {
+  return children;
+}

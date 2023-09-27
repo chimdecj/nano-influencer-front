@@ -1,0 +1,32 @@
+@import './index.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.btn {
+  @apply inline-flex h-9 cursor-pointer items-center justify-center rounded-md bg-transparent px-2 text-sm font-medium transition-colors hover:bg-zinc-100 focus:outline-none focus:bg-zinc-100 active:scale-95 disabled:pointer-events-none disabled:opacity-50 data-[state=open]:bg-transparent dark:text-zinc-100 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 dark:focus:bg-zinc-800 dark:focus:ring-zinc-400 dark:focus:ring-offset-zinc-900 dark:data-[state=open]:bg-transparent;
+}
+svg {
+  vertical-align: baseline;
+}
+
+.stripe-container {
+  background: linear-gradient(-45deg, #fff, #23a6d5, #e76042, #73e0a9);
+  /* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); */
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  height: 100vh;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
