@@ -1,32 +1,30 @@
-'use client';
+"use client";
 
-import { ReactNode } from 'react';
+import Icons from "@/components/common/Icons";
+import { Button, Form, Table } from "antd";
+import Image from "next/image";
+import { ReactNode } from "react";
 
-import Image from 'next/image';
-
-import { Button, Form, Table } from 'antd';
-
-const SelectButton = ({
-  onChange,
-  title,
-  desc,
-  icon,
-}: {
-  onChange: () => void;
-  title: string;
-  desc?: string;
-  icon: ReactNode;
-}) => {
+const SelectButton = ({ onChange, title, desc, icon, isSelected }: { onChange: () => void; title: string; desc?: string; icon: ReactNode; isSelected: boolean }) => {
   return (
-    <div className="flex cursor-pointer items-center justify-between rounded-[26px] bg-gray-900 p-6 text-white">
-      <div className="flex items-center gap-2">
+    <div
+      className={`flex cursor-pointer items-center justify-between rounded-[26px] dark:bg-gray-900 p-6 ${isSelected ? "!bg-primary-600 text-black" : "text-white"}`}
+      onClick={onChange}
+    >
+      <div className="flex items-center gap-6">
         <div className="text-2xl">{icon}</div>
-        <div>
-          <h3 className="text-lg font-semibold">{title}</h3>
-          <p className="text-sm text-gray-500">{desc}</p>
+        <div className="items-center">
+          <h3 className="text-lg font-semibold !mb-0">{title}</h3>
+          {desc && <p className={`text-sm ${isSelected ? "text-gray-950" : "text-gray-500"}`}>{desc}</p>}
         </div>
       </div>
-      <div className="h-5 w-5 rounded-sm bg-gray-800"></div>
+      {isSelected ? (
+        <div className="h-5 w-5 rounded-sm ">
+          <Icons.Check color="white" />
+        </div>
+      ) : (
+        <div className="h-5 w-5 rounded-sm bg-gray-800"></div>
+      )}
     </div>
   );
 };
