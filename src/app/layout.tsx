@@ -1,8 +1,6 @@
-import { ReactNode } from 'react';
-
-import '@/styles/globals.css';
-
-import 'antd/dist/reset.css';
+import "@/styles/globals.css";
+import "antd/dist/reset.css";
+import { ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
