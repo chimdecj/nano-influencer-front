@@ -1,14 +1,13 @@
+import { NextAuthProvider } from "@/components/auth/provider";
 import ThemeProvider from "@/components/settings/ThemeProvider";
-import { Button } from "antd/lib";
 import { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
-import { getLocale, getTranslations } from "next-intl/server";
 import { Quicksand } from "next/font/google";
 import { notFound } from "next/navigation";
 
 const quicksand = Quicksand({ subsets: ["latin"] });
 
-export default async function RootLayout({ children, params: { locale } }: { children: React.ReactNode; params: Record<string, any> }) {
+export default async function RootLayout({ children, params: { locale } }: { session: any; children: React.ReactNode; params: Record<string, any> }) {
   let messages;
   try {
     messages = (await import(`@/locale/messages/${locale}.json`)).default;
@@ -22,7 +21,9 @@ export default async function RootLayout({ children, params: { locale } }: { chi
       <script async defer crossOrigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
       <body className={quicksand.className}>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <ThemeProvider locale={locale}>{children}</ThemeProvider>
+          <ThemeProvider locale={locale}>
+            <NextAuthProvider>{children}</NextAuthProvider>
+          </ThemeProvider>
         </NextIntlClientProvider>
       </body>
     </html>

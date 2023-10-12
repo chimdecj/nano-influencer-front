@@ -1,23 +1,7 @@
-"use client";
-
 import Header from "@/components/Landing/navbar";
-import { fbLogin, getFacebookLoginStatus, initFacebookSdk } from "@/utils/FacebookSDK";
-import { Button } from "antd";
 import Link from "next/link";
 
 export default function Page() {
-  const handleAuth = () => {
-    console.log("reached log in button");
-    fbLogin().then((response: any) => {
-      console.log(response);
-      if (response.status === "connected") {
-        console.log("Person is connected");
-      } else {
-        // something
-      }
-    });
-  };
-
   return (
     <div className="stripe-container d-flex flex-column justify-content-center w-100 h-100 min-h-screen">
       <div className="container !min-h-screen py-6">
@@ -30,9 +14,6 @@ export default function Page() {
           <Link href={"/admin/company/dashboard"}>
             <div className="select-none rounded-full bg-white px-7 py-4 drop-shadow-xl dark:bg-black">Create campaign</div>
           </Link>
-          <Button ghost shape="round" onClick={handleAuth}>
-            FB authorize
-          </Button>
         </div>
       </div>
     </div>
