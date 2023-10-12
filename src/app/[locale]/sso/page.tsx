@@ -1,6 +1,7 @@
 "use client";
 
-import { getFacebookLoginStatus, initFacebookSdk } from "@/utils/FacebookSDK";
+import { fbLogin, getFacebookLoginStatus, initFacebookSdk } from "@/utils/FacebookSDK";
+import { Button } from "antd";
 import React, { useEffect } from "react";
 
 function SSO() {
@@ -17,7 +18,27 @@ function SSO() {
     });
   }, []);
 
-  return <div>SSO success</div>;
+  const handleAuth = () => {
+    console.log("reached log in button");
+    fbLogin().then((response: any) => {
+      console.log(response);
+      if (response.status === "connected") {
+        console.log("Person is connected");
+      } else {
+        // something
+      }
+    });
+  };
+
+  return (
+    <div>
+      SSO success
+      <Button shape="round" onClick={handleAuth}>
+        FB authorize
+      </Button>
+      AA
+    </div>
+  );
 }
 
 export default SSO;

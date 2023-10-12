@@ -19,7 +19,7 @@ export default async function RootLayout({ children, params: { locale } }: { chi
   return (
     <html lang={locale}>
       <head />
-      <script async defer crossOrigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+      <script async defer crossOrigin="anonymous" src="https://connect.facebook.net/en_US/all.js"></script>
       <body className={quicksand.className}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider locale={locale}>{children}</ThemeProvider>

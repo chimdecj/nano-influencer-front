@@ -8,7 +8,7 @@ export const initFacebookSdk = () => {
         appId: "234325869345899",
         cookie: true,
         xfbml: true,
-        version: "v16.0",
+        version: "v17.0",
       });
       // Resolve the promise when the SDK is loaded
       resolve();
