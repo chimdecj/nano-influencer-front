@@ -1,6 +1,6 @@
 "use client";
 
-import SelectCard from "../../components/SelectCard";
+import SelectCard from "@/components/SelectCard";
 import Icons from "@/components/common/Icons";
 import { Button, Form } from "antd";
 import { useRouter } from "next/navigation";
