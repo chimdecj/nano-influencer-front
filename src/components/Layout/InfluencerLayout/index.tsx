@@ -3,12 +3,12 @@ import UserSection from "../UserSection";
 import { SiteHeader } from "./SiteHeader";
 import React from "react";
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function InfluencerLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="h-full bg-white dark:bg-gray-1000 overflow-auto">
+    <div>
       <SiteHeader />
       <main>
-        <div className="grid grid-cols-5 gap-6 p-5 md:p-10">
+        <div className="bg-white dark:bg-gray-1000 grid grid-cols-5 gap-6 p-5 md:p-10">
           <div className="space-y-4">
             <UserSection />
             <SideNav />

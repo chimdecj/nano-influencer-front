@@ -1,27 +1,21 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import React from 'react';
+import { createCache, extractStyle, StyleProvider } from "@ant-design/cssinjs";
+import { useServerInsertedHTML } from "next/navigation";
+import { useState, type PropsWithChildren } from "react";
 
-import { useServerInsertedHTML } from 'next/navigation';
+export const AntdProvider = ({ children }: PropsWithChildren) => {
+  const [cache] = useState(() => createCache());
 
-import { StyleProvider, createCache, extractStyle } from '@ant-design/cssinjs';
-import Entity from '@ant-design/cssinjs/lib/Cache';
-import dayjs from 'dayjs';
-import 'dayjs/locale/zh-cn';
+  useServerInsertedHTML(() => {
+    return (
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `</script>${extractStyle(cache)}<script>`,
+        }}
+      />
+    );
+  });
 
-dayjs.locale('zh-cn');
-
-// suppress useLayoutEffect warnings when running outside a browser
-if (!process.browser) React.useLayoutEffect = React.useEffect;
-
-export function AntdProvider({ children }: { children: React.ReactNode }) {
-  const cache = React.useMemo<Entity>(() => createCache(), [createCache]);
-  useServerInsertedHTML(() => (
-    <style
-      id="antd"
-      dangerouslySetInnerHTML={{ __html: extractStyle(cache, true) }}
-    />
-  ));
   return <StyleProvider cache={cache}>{children}</StyleProvider>;
-}
+};

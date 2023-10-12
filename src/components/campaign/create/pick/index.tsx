@@ -1,15 +1,51 @@
 "use client";
 
+import { getInfluencerList } from "@/api";
 import Icons from "@/components/common/Icons";
-import { Avatar, Button, Form, Input } from "antd";
+import { User } from "@/libs/types";
+import { Avatar, Button, Empty, Form, Input } from "antd";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const CreateCampaignPick = () => {
   const [form] = Form.useForm();
+  const router = useRouter();
+  const [userData, setUserData] = useState<User[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
+  const searchParams = useSearchParams();
+  const campaignId = searchParams.get("id");
   const platform = Form.useWatch("platform", form);
+
+  const getInfluencerData = () => {
+    getInfluencerList({
+      skip: 0,
+      limit: 100,
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data: User[]) => {
+        setUserData(data);
+      });
+  };
+
+  const addUser = (user: User) => {
+    if (selectedUsers.filter((u) => u.email === user.email).length === 0) {
+      setSelectedUsers([...selectedUsers, user]);
+    }
+  };
+
+  const removeUser = (user: User) => {
+    setSelectedUsers([...selectedUsers.filter((u) => u.email !== user.email)]);
+  };
 
   const onFinish = (values: any) => {
     console.log("Success:", values);
   };
+
+  useEffect(() => {
+    getInfluencerData();
+  }, []);
 
   const users = [
     {
@@ -38,22 +74,23 @@ const CreateCampaignPick = () => {
       followerCount: "8.2k",
     },
   ];
+
   return (
     <Form form={form} onFinish={onFinish} layout="vertical">
       <Input.Search placeholder="input search text" onSearch={() => {}} enterButton />
       <div className="grid grid-cols-3 gap-4 my-4">
         <div className="col-span-2 grid grid-cols-2 gap-4">
-          {users.map((user) => (
-            <div key={user.name} className="dark:bg-gray-900 px-6 py-4 rounded-3xl flex items-center gap-4">
-              <Avatar src={user.image} size={64} />
+          {userData.map((user, id) => (
+            <div key={id} className="dark:bg-gray-900 px-6 py-4 rounded-3xl flex items-center gap-4">
+              <Avatar src={"https://d2u8k2ocievbld.cloudfront.net/memojis/female/7.png"} size={64} />
               <div>
-                <div className="text-base text-gray-500">{user.name}</div>
-                <div className="text-sm text-gray-500">Followers {user.followerCount}</div>
+                <div className="text-base text-gray-500">{user.first_name + " " + user.last_name}</div>
+                <div className="text-sm text-gray-500">Followers 10</div>
                 <div className="grid gap-2">
                   <Button type="primary" shape="round">
                     View page
                   </Button>
-                  <Button type="primary" shape="round">
+                  <Button type="primary" shape="round" onClick={() => addUser(user)}>
                     Add
                   </Button>
                 </div>
@@ -70,12 +107,18 @@ const CreateCampaignPick = () => {
           </div>
           <div>
             <ul>
-              {users.map((u) => (
-                <li key={u.name} className="flex items-center justify-between">
-                  {u.name}
-                  <Icons.X size={18} color="#FF7875" className="cursor-pointer" />
-                </li>
-              ))}
+              {selectedUsers.length === 0 ? (
+                <div>
+                  <Empty description="No influencers selected" />
+                </div>
+              ) : (
+                selectedUsers.map((user, index) => (
+                  <li key={index} className="flex items-center justify-between">
+                    {user.first_name + " " + user.last_name}
+                    <Icons.X size={18} color="#FF7875" className="cursor-pointer" onClick={() => removeUser(user)} />
+                  </li>
+                ))
+              )}
             </ul>
           </div>
         </div>

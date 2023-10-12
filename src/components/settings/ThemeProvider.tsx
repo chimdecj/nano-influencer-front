@@ -15,9 +15,6 @@ const quicksand = Quicksand({ subsets: ["latin"] });
 
 export function AntdConfigProvider({ children, locale }: ProviderProps) {
   const { theme: nowTheme } = useTheme();
-
-  console.log("nowTheme");
-  console.log(nowTheme);
   return (
     <ConfigProvider
       locale={(languages as any)[(locale as any) ?? defaultLocale].antd}
@@ -38,17 +35,17 @@ export function AntdConfigProvider({ children, locale }: ProviderProps) {
 }
 
 export default function ThemeProvider(props: ProviderProps) {
-  // const [mounted, setMounted] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  // // useEffect only runs on the client, so now we can safely show the UI
-  // useEffect(() => {
-  //   setMounted(true);
-  // }, []);
+  // useEffect only runs on the client, so now we can safely show the UI
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  // if (!mounted) {
-  //   // use your loading page
-  //   return <div className="hidden">{props.children}</div>;
-  // }
+  if (!mounted) {
+    // use your loading page
+    return <div className="hidden">{props.children}</div>;
+  }
 
   return (
     <NextThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>

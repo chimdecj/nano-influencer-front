@@ -1,16 +1,20 @@
 "use client";
 
-import SelectButton from "../../components/selectCard";
+import SelectButton from "../../components/SelectCard";
 import Icons from "@/components/common/Icons";
 import { Button, Form } from "antd";
+import { useRouter } from "next/navigation";
 
 const CreateCampaignBasic = () => {
   const [form] = Form.useForm();
+  const router = useRouter();
   const platform = Form.useWatch("platform", form);
   const plan = Form.useWatch("plan", form);
 
   const onFinish = (values: any) => {
     console.log("Success:", values);
+    window.localStorage.setItem("campaign_basics", JSON.stringify(values));
+    router.push("/admin/company/create/campaign/form");
   };
 
   const socialMedias = [
@@ -18,6 +22,7 @@ const CreateCampaignBasic = () => {
       id: "facebook",
       title: "Facebook",
       icon: <Icons.Facebook />,
+      disabled: true,
     },
     {
       id: "instagram",
@@ -28,6 +33,7 @@ const CreateCampaignBasic = () => {
       id: "tiktok",
       title: "Tiktok",
       icon: <Icons.VideoIcon />,
+      disabled: true,
     },
   ];
 
@@ -63,7 +69,14 @@ const CreateCampaignBasic = () => {
       <Form.Item label="Choose your social media" name="platform">
         <div className="grid grid-cols-3 gap-6">
           {socialMedias.map((item, index) => (
-            <SelectButton key={index} onChange={() => form.setFieldValue("platform", item.id)} title={item.title} icon={item.icon} isSelected={platform === item.id} />
+            <SelectButton
+              key={index}
+              onChange={() => form.setFieldValue("platform", item.id)}
+              title={item.title}
+              icon={item.icon}
+              isSelected={platform === item.id}
+              disabled={item.disabled}
+            />
           ))}
         </div>
       </Form.Item>

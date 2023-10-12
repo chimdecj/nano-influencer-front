@@ -9,25 +9,25 @@ export default function StepCounter() {
   const items = [
     {
       label: "Select type",
-      href: "/admin/create/campaign",
+      href: "/admin/company/create/campaign",
       key: "type",
       isChecked: false,
     },
     {
       label: "Campaign",
-      href: "/admin/create/campaign/form",
+      href: "/admin/company/create/campaign/form",
       key: "campaign",
       isChecked: false,
     },
     {
       label: "Select influencers",
-      href: "/admin/create/campaign/pick",
+      href: "/admin/company/create/campaign/pick",
       key: "select",
       isChecked: false,
     },
     {
       label: "Agreement",
-      href: "/admin/create/campaign/submit",
+      href: "/admin/company/create/campaign/submit",
       key: "agreement",
       isChecked: false,
     },

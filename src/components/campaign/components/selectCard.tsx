@@ -1,15 +1,29 @@
 "use client";
 
 import Icons from "@/components/common/Icons";
-import { Button, Form, Table } from "antd";
-import Image from "next/image";
 import { ReactNode } from "react";
 
-const SelectButton = ({ onChange, title, desc, icon, isSelected }: { onChange: () => void; title: string; desc?: string; icon: ReactNode; isSelected: boolean }) => {
+const SelectButton = ({
+  onChange,
+  title,
+  desc,
+  icon,
+  isSelected,
+  disabled,
+}: {
+  onChange: () => void;
+  title: string;
+  desc?: string;
+  icon: ReactNode;
+  isSelected: boolean;
+  disabled?: boolean;
+}) => {
   return (
     <div
-      className={`flex cursor-pointer items-center justify-between rounded-[26px] bg-slate-200 dark:bg-gray-900 p-6 ${isSelected ? "!bg-primary-600 text-black" : "text-white"}`}
-      onClick={onChange}
+      className={`flex items-center justify-between rounded-[26px] bg-slate-200 dark:bg-gray-900 p-6 ${isSelected ? "!bg-primary-600 text-black" : "text-white"} ${
+        disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+      }`}
+      onClick={() => !disabled && onChange()}
     >
       <div className="flex items-center gap-6">
         <div className="text-2xl">{icon}</div>
@@ -23,7 +37,7 @@ const SelectButton = ({ onChange, title, desc, icon, isSelected }: { onChange: (
           <Icons.Check color="white" />
         </div>
       ) : (
-        <div className="h-5 w-5 rounded-sm bg-slate-300 dark:bg-gray-800"></div>
+        <div className="h-5 w-5 min-w-[20px] rounded-sm bg-slate-300 dark:bg-gray-800"></div>
       )}
     </div>
   );
