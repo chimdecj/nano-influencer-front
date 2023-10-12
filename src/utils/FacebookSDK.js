@@ -1,7 +1,7 @@
 export const initFacebookSdk = () => {
   console.log("run Init fb sdk");
 
-  return new Promise<void>((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     // Load the Facebook SDK asynchronously
     window.fbAsyncInit = () => {
       window.FB.init({

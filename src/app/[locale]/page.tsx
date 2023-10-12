@@ -8,7 +8,7 @@ import Link from "next/link";
 export default function Page() {
   const handleAuth = () => {
     console.log("reached log in button");
-    fbLogin().then((response) => {
+    fbLogin().then((response: any) => {
       console.log(response);
       if (response.status === "connected") {
         console.log("Person is connected");
