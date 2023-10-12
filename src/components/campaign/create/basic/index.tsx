@@ -1,6 +1,6 @@
 "use client";
 
-import SelectButton from "../../components/SelectCard";
+import SelectCard from "../../components/SelectCard";
 import Icons from "@/components/common/Icons";
 import { Button, Form } from "antd";
 import { useRouter } from "next/navigation";
@@ -69,7 +69,7 @@ const CreateCampaignBasic = () => {
       <Form.Item label="Choose your social media" name="platform">
         <div className="grid grid-cols-3 gap-6">
           {socialMedias.map((item, index) => (
-            <SelectButton
+            <SelectCard
               key={index}
               onChange={() => form.setFieldValue("platform", item.id)}
               title={item.title}
@@ -83,7 +83,7 @@ const CreateCampaignBasic = () => {
       <Form.Item label="Choose your plan" name="plan">
         <div className="grid grid-cols-2 gap-6">
           {plans.map((item, index) => (
-            <SelectButton key={index} onChange={() => form.setFieldValue("plan", item.id)} title={item.title} icon={item.icon} desc={item.desc} isSelected={plan === item.id} />
+            <SelectCard key={index} onChange={() => form.setFieldValue("plan", item.id)} title={item.title} icon={item.icon} desc={item.desc} isSelected={plan === item.id} />
           ))}
         </div>
       </Form.Item>

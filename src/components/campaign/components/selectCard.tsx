@@ -3,7 +3,7 @@
 import Icons from "@/components/common/Icons";
 import { ReactNode } from "react";
 
-const SelectButton = ({
+const SelectCard = ({
   onChange,
   title,
   desc,
@@ -43,4 +43,4 @@ const SelectButton = ({
   );
 };
 
-export default SelectButton;
+export default SelectCard;
