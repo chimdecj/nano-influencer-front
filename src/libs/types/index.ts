@@ -1,4 +1,5 @@
 export interface User {
+  id: string | number;
   bank: string;
   bankaccount: string;
   category: string;
@@ -30,12 +31,18 @@ export interface Campaign {
   wording: string;
   guidance: string;
   owner_id: number;
-  id: number;
+  id: string | number;
   org_id: number;
+  associated_influencers: User[];
+  campaign_images: {
+    id: number;
+    url: string;
+  }[];
 }
 
 export interface CampaignInput {
-  org_id: number;
+  campaign_id?: string | number;
+  org_id?: number;
   status: number;
   type: number;
   platform_type: number;

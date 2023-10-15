@@ -14,7 +14,7 @@
     "@ant-design/cssinjs": "^1.10.1",
     "antd": "^5.6.1",
     "clsx": "^1.2.1",
-    "dayjs": "^1.11.8",
+    "dayjs": "^1.11.10",
     "lucide-react": "^0.244.0",
     "moment": "^2.29.4",
     "next": "13.4.6",

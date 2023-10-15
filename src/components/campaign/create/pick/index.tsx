@@ -1,8 +1,8 @@
 "use client";
 
-import { getInfluencerList } from "@/api";
+import { getCampaignById, getInfluencerList, updateCampaignInfluencer } from "@/api";
 import Icons from "@/components/common/Icons";
-import { User } from "@/libs/types";
+import { Campaign, User } from "@/libs/types";
 import { Avatar, Button, Empty, Form, Input } from "antd";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -10,10 +10,12 @@ import { useEffect, useState } from "react";
 const CreateCampaignPick = () => {
   const [form] = Form.useForm();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const id = searchParams.get("id") as string;
+
   const [userData, setUserData] = useState<User[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
-  const searchParams = useSearchParams();
-  const campaignId = searchParams.get("id");
   const platform = Form.useWatch("platform", form);
 
   const getInfluencerData = () => {
@@ -39,41 +41,35 @@ const CreateCampaignPick = () => {
     setSelectedUsers([...selectedUsers.filter((u) => u.email !== user.email)]);
   };
 
-  const onFinish = (values: any) => {
-    console.log("Success:", values);
+  const onFinish = () => {
+    setSubmitLoading(true);
+    updateCampaignInfluencer({
+      campaign_id: id,
+      influencer_ids: selectedUsers.map((item) => item.id),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setSubmitLoading(false);
+        router.push(`/admin/company/create/campaign/submit?id=${id}`);
+      });
   };
 
   useEffect(() => {
     getInfluencerData();
-  }, []);
-
-  const users = [
-    {
-      image: "https://d2u8k2ocievbld.cloudfront.net/memojis/male/1.png",
-      name: "John Doe",
-      followerCount: "1.2k",
-    },
-    {
-      image: "https://d2u8k2ocievbld.cloudfront.net/memojis/female/2.png",
-      name: "Jenny",
-      followerCount: "13k",
-    },
-    {
-      image: "https://d2u8k2ocievbld.cloudfront.net/memojis/male/3.png",
-      name: "Andy",
-      followerCount: "2k",
-    },
-    {
-      image: "https://d2u8k2ocievbld.cloudfront.net/memojis/male/6.png",
-      name: "John",
-      followerCount: "11.2k",
-    },
-    {
-      image: "https://d2u8k2ocievbld.cloudfront.net/memojis/female/7.png",
-      name: "Kenny",
-      followerCount: "8.2k",
-    },
-  ];
+    if (id) {
+      getCampaignById({
+        campaign_id: id,
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((data: Campaign) => {
+          setSelectedUsers(data.associated_influencers);
+        });
+    }
+  }, [id]);
 
   return (
     <Form form={form} onFinish={onFinish} layout="vertical">
@@ -125,7 +121,7 @@ const CreateCampaignPick = () => {
       </div>
 
       <div className="text-right">
-        <Button type="primary" htmlType="submit" shape="round" size="large">
+        <Button type="primary" htmlType="submit" shape="round" size="large" loading={submitLoading}>
           Continue
         </Button>
       </div>

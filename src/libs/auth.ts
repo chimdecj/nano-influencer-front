@@ -15,6 +15,14 @@ export const authOptions: NextAuthOptions = {
     FacebookProvider({
       clientId: "234325869345899" as string,
       clientSecret: "0793e94d6d953783aa83c495aec3083f" as string,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+          response_mode: "",
+        },
+      },
     }),
   ],
   callbacks: {
@@ -23,6 +31,8 @@ export const authOptions: NextAuthOptions = {
         ...session,
         user: {
           ...session.user,
+          token: token,
+          session: session,
           id: token.id,
           randomKey: token.randomKey,
           accessToken: token.accessToken,

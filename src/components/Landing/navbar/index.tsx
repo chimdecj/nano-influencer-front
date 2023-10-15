@@ -12,11 +12,6 @@ function Header() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  console.log("session");
-  console.log(session);
-  console.log("status");
-  console.log(status);
-
   const items = [
     {
       key: "1",
