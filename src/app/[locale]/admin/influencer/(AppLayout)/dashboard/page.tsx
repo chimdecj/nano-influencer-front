@@ -31,7 +31,7 @@ const InfluencerDashboard = () => {
   const items = [
     {
       title: "Total influencers",
-      content: 10,
+      content: 200,
     },
     {
       title: "Link traffic",
