@@ -16,7 +16,7 @@ const InfluencerDashboard = () => {
   useEffect(() => {
     setLoading(true);
     getInfluencerList({
-      limit: 100,
+      limit: 90,
       skip: 0,
     })
       .then((Response) => {
