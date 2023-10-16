@@ -1,6 +1,6 @@
 "use client";
 
-import { getInfluencerList } from "@/api";
+import { API_URL, getInfluencerList } from "@/api";
 import Icons from "@/components/common/Icons";
 import { User } from "@/libs/types";
 import { FileSearchOutlined } from "@ant-design/icons";
@@ -10,6 +10,9 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const InfluencerDashboard = () => {
+  console.log("API_URL");
+  console.log(API_URL);
+
   const [loading, setLoading] = useState<boolean>(false);
   const [influencerList, setInfluencerList] = useState<User[]>([]);
 
