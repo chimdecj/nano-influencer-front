@@ -1,6 +1,11 @@
+import { API_URL } from "@/api";
 import CompanyLayout from "@/components/Layout/CompanyLayout";
 
 export default async function SubLayout(props: any) {
   const { children } = props;
+
+  console.log("API_URL");
+  console.log(API_URL);
+
   return <CompanyLayout>{children}</CompanyLayout>;
 }
