@@ -1,6 +1,7 @@
 import { CampaignInput } from "@/libs/types";
 
-export const API_URL = process.env.NEXT_PUBLIC_REST_API_URL;
+// export const API_URL = process.env.NEXT_PUBLIC_REST_API_URL;
+export const API_URL = "http://103.143.40.183:8888";
 
 export const getInfluencerList = async ({ limit, skip }: { limit: number; skip: number }) => {
   return await fetch(API_URL + `/influencer/list?limit=${limit}&skip=${skip}`, {
