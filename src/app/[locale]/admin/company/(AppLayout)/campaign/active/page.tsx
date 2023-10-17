@@ -2,7 +2,7 @@
 
 import CampaignList from "@/components/campaign/list";
 
-const AdminHomePage = () => {
+const AdminActiveCampaignList = () => {
   return (
     <div className="space-y-4">
       <CampaignList />
@@ -10,4 +10,4 @@ const AdminHomePage = () => {
   );
 };
 
-export default AdminHomePage;
+export default AdminActiveCampaignList;

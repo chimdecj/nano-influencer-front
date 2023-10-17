@@ -12,62 +12,29 @@ export interface NavItem {
   icon: React.ReactNode;
 }
 
-const CompanyNavItems: NavItem[] = [
-  {
-    key: "campaigns",
-    href: "/admin/company/campaign/list",
-    label: "Campaign list",
-    icon: <Icons.List size={18} />,
-  },
-  {
-    key: "active-campaigns",
-    label: "Active campaigns",
-    href: "/admin/company/dashboard",
-    icon: <Icons.SquareStack size={18} />,
-  },
-  {
-    key: "influencer",
-    href: "/admin/company/influencer/list",
-    label: "Influencer list",
-    icon: <Icons.Users size={18} />,
-  },
-  {
-    key: "settings",
-    label: "Settings",
-    href: "/admin/company/settings",
-    icon: <Icons.Settings size={18} />,
-  },
-  {
-    key: "log-out",
-    label: "Log out",
-    href: "/admin/company/settings",
-    icon: <Icons.LogOut size={18} />,
-  },
-];
-
 const InfluencerNavItems: NavItem[] = [
   {
     key: "campaigns",
-    href: "/admin/company/campaign/list",
+    href: "/admin/influencer/campaign/list",
     label: "New campaigns",
     icon: <Icons.List size={18} />,
   },
   {
     key: "active-campaigns",
     label: "Active campaigns",
-    href: "/admin/company/dashboard",
+    href: "/admin/influencer/dashboard",
     icon: <Icons.SquareStack size={18} />,
   },
   {
     key: "influencer",
-    href: "/admin/company/influencer/list",
+    href: "/admin/influencer/influencer/list",
     label: "Campaign history",
     icon: <Icons.History size={18} />,
   },
   {
     key: "settings",
     label: "Settings",
-    href: "/admin/company/settings",
+    href: "/admin/influencer/settings",
     icon: <Icons.Settings size={18} />,
   },
   {
@@ -80,7 +47,6 @@ const InfluencerNavItems: NavItem[] = [
 
 export function SideNav() {
   const NavItems = InfluencerNavItems;
-  // CompanyNavItems
   return (
     <div className="h-fit rounded-3xl bg-slate-200 px-3.5 py-3 dark:bg-gray-900">
       {NavItems?.map(

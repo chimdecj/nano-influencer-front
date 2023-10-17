@@ -1,5 +1,5 @@
-import { SideNav } from "../SideNav";
 import UserSection from "../UserSection";
+import { SideNav } from "./SideNav";
 import { SiteHeader } from "./SiteHeader";
 import React from "react";
 

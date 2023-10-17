@@ -20,6 +20,15 @@ export const getCampaignList = async ({ org_id, limit, skip }: { org_id: number;
   });
 };
 
+export const getCampaignListByStatus = async ({ status, org_id, limit, skip }: { status: string; org_id: number; limit: number; skip: number }) => {
+  return await fetch(API_URL + `/campaigns/status?status=${status}&org_id=${org_id}&limit=${limit}&skip=${skip}`, {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+    },
+  });
+};
+
 export const createCampaign = async ({
   org_id,
   status,
@@ -108,6 +117,15 @@ export const getCampaignById = async ({ campaign_id }: { campaign_id: string }) 
 export const submitCampaign = async ({ campaign_id }: { campaign_id: string }) => {
   return await fetch(API_URL + `/campaign/submit?campaign_id=${campaign_id}`, {
     method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+  });
+};
+
+export const influencerCampaigns = async ({ influencer_id }: { influencer_id: number }) => {
+  return await fetch(API_URL + `/influencer/campaigns?influencer_id=${influencer_id}`, {
+    method: "GET",
     headers: {
       "Content-type": "application/json",
     },

@@ -39,11 +39,10 @@ const CreateCampaignForm = () => {
         ...params,
       })
         .then((res) => {
-          res.json();
+          if (res.ok) return res.json();
         })
         .then((data) => {
-          setSubmitLoading(false);
-          router.push(id ? `/admin/company/create/campaign/pick?id=${id}` : "/admin/company/create/campaign/pick");
+          if (data) router.push(`/admin/company/create/campaign/pick?id=${id}`);
         });
     } else {
       createCampaign({
@@ -70,7 +69,7 @@ const CreateCampaignForm = () => {
       .then((data: Campaign) => {
         form.setFieldsValue({
           title: data.title,
-          date: [dayjs(data.start_date_time, "YYYY-MM-DD"), dayjs(data.end_date_time, "YYYY-MM-DD")],
+          date: [data.start_date_time ? dayjs(data.start_date_time, "YYYY-MM-DD") : null, data.end_date_time ? dayjs(data.end_date_time, "YYYY-MM-DD") : null],
           purpose: data.purpose,
           wording: data.wording,
           guidance: data.guidance,
@@ -107,9 +106,7 @@ const CreateCampaignForm = () => {
         <Form.Item name="date" rules={[{ required: true }]} style={{ display: "inline-block", width: "calc(70% - 8px)" }}>
           <DatePicker.RangePicker style={{ width: "100%" }} />
         </Form.Item>
-        <Form.Item name="duration" rules={[{ required: false }]} style={{ display: "inline-block", width: "calc(30% - 8px)", margin: "0 8px" }}>
-          Duration: {renderDuration()}
-        </Form.Item>
+        <Form.Item style={{ display: "inline-block", width: "calc(30% - 8px)", margin: "0 8px" }}>Duration: {renderDuration()}</Form.Item>
       </Form.Item>
       <Form.Item label="Goal, Purpose, Summary" name="purpose" rules={[{ required: true }]}>
         <Input.TextArea placeholder="Describe what is your campaign about" />

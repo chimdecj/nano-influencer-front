@@ -43,16 +43,16 @@ export interface Campaign {
 export interface CampaignInput {
   campaign_id?: string | number;
   org_id?: number;
-  status: number;
-  type: number;
-  platform_type: number;
-  title: string;
-  start_date_time: string;
-  end_date_time: string;
+  status?: number;
+  type?: number;
+  platform_type?: number;
+  title?: string;
+  start_date_time?: string;
+  end_date_time?: string;
   created_date?: string;
   updated_date?: string;
-  purpose: string;
-  wording: string;
-  guidance: string;
-  owner_id: number;
+  purpose?: string;
+  wording?: string;
+  guidance?: string;
+  owner_id?: number;
 }

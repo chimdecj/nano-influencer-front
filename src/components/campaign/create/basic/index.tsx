@@ -1,11 +1,12 @@
 "use client";
 
-import { getCampaignById } from "@/api";
+import { createCampaign, getCampaignById, updateCampaign } from "@/api";
 import SelectCard from "@/components/SelectCard";
 import Icons from "@/components/common/Icons";
 import { Button, Form } from "antd";
+import moment from "moment";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const CreateCampaignBasic = () => {
   const [form] = Form.useForm();
@@ -13,27 +14,59 @@ const CreateCampaignBasic = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const platform = Form.useWatch("platform", form);
-  const plan = Form.useWatch("plan", form);
+  const type = Form.useWatch("type", form);
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   const onFinish = (values: any) => {
-    window.localStorage.setItem("campaign_basics", JSON.stringify(values));
-    router.push(id ? `/admin/company/create/campaign/form?id=${id}` : "/admin/company/create/campaign/form");
+    setSubmitLoading(true);
+    let r = (Math.random() + 1).toString(36).substring(7);
+    if (id) {
+      updateCampaign({
+        platform_type: 0,
+        type: 0,
+        campaign_id: id,
+      })
+        .then((res) => {
+          setSubmitLoading(false);
+          return res.json();
+        })
+        .then((data) => {
+          router.push(`/admin/company/create/campaign/form?id=${data?.id}`);
+        });
+    } else {
+      createCampaign({
+        org_id: 1,
+        type: values.type,
+        platform_type: values.platform,
+        title: r,
+        owner_id: 1,
+        created_date: moment(new Date()).format("YYYY-MM-DDTh:mm:ssZ"),
+        status: 0,
+      })
+        .then((res) => {
+          setSubmitLoading(false);
+          return res.json();
+        })
+        .then((data) => {
+          router.push(`/admin/company/create/campaign/form?id=${data?.id}`);
+        });
+    }
   };
 
   const socialMedias = [
     {
-      id: "facebook",
+      id: 1,
       title: "Facebook",
       icon: <Icons.Facebook />,
       disabled: true,
     },
     {
-      id: "instagram",
+      id: 0,
       title: "Instagram",
       icon: <Icons.Instagram />,
     },
     {
-      id: "tiktok",
+      id: 3,
       title: "Tiktok",
       icon: <Icons.VideoIcon />,
       disabled: true,
@@ -42,58 +75,30 @@ const CreateCampaignBasic = () => {
 
   const plans = [
     {
-      id: "easy",
+      id: 1,
       title: "Easy Awareness",
       desc: "Best for product launch, Event Wom Facebook, Instagram",
       icon: <Icons.VideoIcon />,
     },
     {
-      id: "product",
+      id: 2,
       title: "Product Seed",
       desc: "Best for product launch, Event Wom Facebook, Instagram",
       icon: <Icons.VideoIcon />,
     },
     {
-      id: "seed",
+      id: 3,
       title: "Mass story, launch event or product",
       desc: "Best for product launch, Event Wom Facebook, Instagram",
       icon: <Icons.VideoIcon />,
     },
     {
-      id: "mass",
+      id: 4,
       title: "Mass story, launch event or product",
       desc: "Best for product launch, Event Wom Facebook, Instagram",
       icon: <Icons.VideoIcon />,
     },
   ];
-
-  const getPlatformType = (type: number) => {
-    switch (type) {
-      case 0:
-        return "instagram";
-      case 1:
-        return "facebook";
-      case 3:
-        return "tiktok";
-      default:
-        break;
-    }
-  };
-
-  const getPlanType = (type: number) => {
-    switch (type) {
-      case 0:
-        return "easy";
-      case 1:
-        return "product";
-      case 3:
-        return "seed";
-      case 4:
-        return "mass";
-      default:
-        break;
-    }
-  };
 
   useEffect(() => {
     if (id) {
@@ -101,12 +106,12 @@ const CreateCampaignBasic = () => {
         campaign_id: id,
       })
         .then((res) => {
-          return res.json();
+          if (res.ok) return res.json();
         })
         .then((data) => {
           form.setFieldsValue({
-            platform: getPlatformType(data.platform_type),
-            plan: getPlanType(data.type),
+            platform: data.platform_type,
+            type: data.type,
           });
         });
     }
@@ -114,7 +119,7 @@ const CreateCampaignBasic = () => {
 
   return (
     <Form form={form} onFinish={onFinish} layout="vertical">
-      <Form.Item label="Choose your social media" name="platform">
+      <Form.Item label="Choose your social media" name="platform" rules={[{ required: true }]}>
         <div className="grid grid-cols-3 gap-6">
           {socialMedias.map((item, index) => (
             <SelectCard
@@ -128,15 +133,15 @@ const CreateCampaignBasic = () => {
           ))}
         </div>
       </Form.Item>
-      <Form.Item label="Choose your plan" name="plan">
+      <Form.Item label="Choose your plan" name="type" rules={[{ required: true }]}>
         <div className="grid grid-cols-2 gap-6">
           {plans.map((item, index) => (
-            <SelectCard key={index} onChange={() => form.setFieldValue("plan", item.id)} title={item.title} icon={item.icon} desc={item.desc} isSelected={plan === item.id} />
+            <SelectCard key={index} onChange={() => form.setFieldValue("type", item.id)} title={item.title} icon={item.icon} desc={item.desc} isSelected={type === item.id} />
           ))}
         </div>
       </Form.Item>
       <div className="text-right">
-        <Button type="primary" htmlType="submit" shape="round" size="large">
+        <Button type="primary" htmlType="submit" shape="round" size="large" loading={submitLoading}>
           Continue
         </Button>
       </div>
