@@ -18,6 +18,7 @@ export default async function RootLayout({ children, params: { locale } }: { ses
   return (
     <html lang={locale}>
       <head />
+      <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
       <script async defer crossOrigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
       <body className={quicksand.className}>
         <NextIntlClientProvider locale={locale} messages={messages}>

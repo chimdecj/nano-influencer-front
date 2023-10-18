@@ -12,7 +12,10 @@ export default function Page() {
             <span className="text-2xl text-white">Manage and track your influencer affiliate marketing programs with ease</span>
           </div>
           <Link href={"/admin/company/dashboard"}>
-            <div className="select-none rounded-full bg-white px-7 py-4 drop-shadow-xl dark:bg-black">Create campaign</div>
+            <div className="select-none rounded-full bg-white px-7 py-4 drop-shadow-xl dark:bg-black">Login to company</div>
+          </Link>
+          <Link href={"/admin/influencer/dashboard"}>
+            <div className="select-none rounded-full bg-white px-7 py-4 drop-shadow-xl dark:bg-black">Login to influencer</div>
           </Link>
         </div>
       </div>
