@@ -18,41 +18,37 @@ export default function CampaignLayout({ children }: { children: React.ReactNode
     if (id) {
       getCampaignById({
         campaign_id: id,
-      })
-        .then((res) => {
-          if (res.ok) return res.json();
-        })
-        .then((data: Campaign) => {
-          setItems(
-            items.map((item) => {
-              if (item.key === "type" && data.type != null && data.platform_type != null) {
-                return {
-                  ...item,
-                  isChecked: true,
-                };
-              } else if (item.key === "form" && data.start_date_time) {
-                return {
-                  ...item,
-                  isChecked: true,
-                };
-              } else if (item.key === "pick" && data.associated_influencers.length) {
-                return {
-                  ...item,
-                  isChecked: true,
-                };
-              } else if (item.key === "agreement" && data.status > 0) {
-                return {
-                  ...item,
-                  isChecked: true,
-                };
-              } else {
-                return item;
-              }
-            })
-          );
-        });
+      }).then((data: Campaign) => {
+        setItems(
+          items.map((item) => {
+            if (item.key === "type" && data.type != null && data.platform_type != null) {
+              return {
+                ...item,
+                isChecked: true,
+              };
+            } else if (item.key === "form" && data.start_date_time) {
+              return {
+                ...item,
+                isChecked: true,
+              };
+            } else if (item.key === "pick" && data.associated_influencers.length) {
+              return {
+                ...item,
+                isChecked: true,
+              };
+            } else if (item.key === "agreement" && data.status > 0) {
+              return {
+                ...item,
+                isChecked: true,
+              };
+            } else {
+              return item;
+            }
+          })
+        );
+      });
     }
-  }, [id, items, pathname]);
+  }, [id, pathname]);
 
   return (
     <div className="h-full bg-white dark:bg-gray-1000 overflow-auto">

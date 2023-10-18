@@ -3,7 +3,8 @@
 import { createCampaign, getCampaignById, updateCampaign } from "@/api";
 import SelectCard from "@/components/SelectCard";
 import Icons from "@/components/common/Icons";
-import { Button, Form } from "antd";
+import { Campaign } from "@/libs/types";
+import { Button, Form, notification } from "antd";
 import moment from "moment";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -22,15 +23,24 @@ const CreateCampaignBasic = () => {
     let r = (Math.random() + 1).toString(36).substring(7);
     if (id) {
       updateCampaign({
-        platform_type: 0,
-        type: 0,
+        platform_type: values.platform,
+        type: values.type,
+        status: 0,
+        owner_id: 1,
         campaign_id: id,
       })
         .then((res) => {
-          setSubmitLoading(false);
-          return res.json();
+          if (res.ok) {
+            return res.json();
+          } else {
+            notification.error({
+              message: "Update error",
+            });
+            return null;
+          }
         })
         .then((data) => {
+          setSubmitLoading(false);
           router.push(`/admin/company/create/campaign/form?id=${data?.id}`);
         });
     } else {
@@ -100,22 +110,22 @@ const CreateCampaignBasic = () => {
     },
   ];
 
+  const getData = () => {
+    getCampaignById({
+      campaign_id: id as string,
+    }).then((data: Campaign) => {
+      form.setFieldsValue({
+        platform: data.platform_type,
+        type: data.type,
+      });
+    });
+  };
+
   useEffect(() => {
     if (id) {
-      getCampaignById({
-        campaign_id: id,
-      })
-        .then((res) => {
-          if (res.ok) return res.json();
-        })
-        .then((data) => {
-          form.setFieldsValue({
-            platform: data.platform_type,
-            type: data.type,
-          });
-        });
+      getData();
     }
-  }, [form, id]);
+  }, [id]);
 
   return (
     <Form form={form} onFinish={onFinish} layout="vertical">

@@ -61,13 +61,9 @@ const CreateCampaignPick = () => {
     if (id) {
       getCampaignById({
         campaign_id: id,
-      })
-        .then((res) => {
-          return res.json();
-        })
-        .then((data: Campaign) => {
-          setSelectedUsers(data.associated_influencers);
-        });
+      }).then((data: Campaign) => {
+        setSelectedUsers(data.associated_influencers);
+      });
     }
   }, [id]);
 

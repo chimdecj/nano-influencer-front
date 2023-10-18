@@ -91,7 +91,6 @@ function CampaignDetail({ id }: { id: string }) {
         return res.json();
       })
       .then((data: Campaign) => {
-        console.log(data);
         setData(data);
       });
   }, [id]);

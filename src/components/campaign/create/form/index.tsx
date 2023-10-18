@@ -62,25 +62,21 @@ const CreateCampaignForm = () => {
   const getData = () => {
     getCampaignById({
       campaign_id: id as string,
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((data: Campaign) => {
-        form.setFieldsValue({
-          title: data.title,
-          date: [data.start_date_time ? dayjs(data.start_date_time, "YYYY-MM-DD") : null, data.end_date_time ? dayjs(data.end_date_time, "YYYY-MM-DD") : null],
-          purpose: data.purpose,
-          wording: data.wording,
-          guidance: data.guidance,
-          campaign_images: data.campaign_images.map((item, index) => ({
-            uid: index,
-            name: "image.png",
-            status: "done",
-            url: item.url,
-          })),
-        });
+    }).then((data: Campaign) => {
+      form.setFieldsValue({
+        title: data.title,
+        date: [data.start_date_time ? dayjs(data.start_date_time, "YYYY-MM-DD") : null, data.end_date_time ? dayjs(data.end_date_time, "YYYY-MM-DD") : null],
+        purpose: data.purpose,
+        wording: data.wording,
+        guidance: data.guidance,
+        campaign_images: data.campaign_images.map((item, index) => ({
+          uid: index,
+          name: "image.png",
+          status: "done",
+          url: item.url,
+        })),
       });
+    });
   };
 
   useEffect(() => {

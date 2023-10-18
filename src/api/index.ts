@@ -106,12 +106,13 @@ export const uploadCampaignImage = async ({ campaign_id, file }: { campaign_id: 
 };
 
 export const getCampaignById = async ({ campaign_id }: { campaign_id: string }) => {
-  return await fetch(API_URL + `/campaign?campaign_id=${campaign_id}`, {
+  const res = await fetch(API_URL + `/campaign?campaign_id=${campaign_id}`, {
     method: "GET",
     headers: {
       "Content-type": "application/json",
     },
   });
+  return res.json();
 };
 
 export const submitCampaign = async ({ campaign_id }: { campaign_id: string }) => {

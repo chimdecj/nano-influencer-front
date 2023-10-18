@@ -10,9 +10,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const InfluencerDashboard = () => {
-  console.log("API_URL");
-  console.log(API_URL);
-
   const [loading, setLoading] = useState<boolean>(false);
   const [influencerList, setInfluencerList] = useState<User[]>([]);
 
