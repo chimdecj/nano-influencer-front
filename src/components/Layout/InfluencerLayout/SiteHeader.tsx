@@ -13,12 +13,12 @@ export function SiteHeader() {
         <MainNav />
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-2">
-            <Link href={"/admin/company/create/campaign"}>
+            {/* <Link href={"/admin/company/create/campaign"}>
               <Button type="primary" shape="round" size="large" className="!flex !items-center !gap-2">
                 <Icons.Plus size={18} />
                 Create new campaign
               </Button>
-            </Link>
+            </Link> */}
             {/* <LocaleSwitcher /> */}
             <ThemeToggle />
           </nav>
