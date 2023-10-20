@@ -121,7 +121,7 @@ function CampaignList() {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [status]);
 
   return (
     <div className="space-y-4">
