@@ -4,7 +4,7 @@ import { API_URL, getInfluencerList } from "@/api";
 import Icons from "@/components/common/Icons";
 import { User } from "@/libs/types";
 import { FileSearchOutlined } from "@ant-design/icons";
-import { Avatar, Button } from "antd";
+import { Avatar, Button, Spin } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -70,6 +70,11 @@ const InfluencerDashboard = () => {
       </div>
       <div>
         <h2 className="text-2xl font-medium">Influencers</h2>
+        {loading && (
+          <div className="text-center">
+            <Spin />
+          </div>
+        )}
         <div className="grid grid-cols-3 gap-6">
           {influencerList.map((item, index) => (
             <div className="flex gap-6 rounded-2xl bg-slate-200 p-6 dark:bg-gray-900" key={index}>

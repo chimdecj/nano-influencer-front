@@ -98,7 +98,7 @@ function InfluencerAssignedCampaignList() {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [status]);
 
   return (
     <div className="space-y-4">
