@@ -132,3 +132,38 @@ export const influencerCampaigns = async ({ influencer_id }: { influencer_id: nu
     },
   });
 };
+
+export const updateCompanyInfo = async ({
+  user_id,
+  name,
+  industry,
+  sub_industry,
+  instagram_profile,
+  facebook_profile,
+  tiktok_profile,
+  preffered_category,
+  offce_address,
+  phonenumber,
+  email,
+}: {
+  user_id: number;
+  name: string;
+  industry: string;
+  sub_industry: string;
+  instagram_profile: string;
+  facebook_profile: string;
+  tiktok_profile: string;
+  preffered_category: string;
+  offce_address: string;
+  phonenumber: string;
+  email: string;
+}) => {
+  const res = await fetch(API_URL + `/organization?user_id=${user_id}`, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify({ name, industry, sub_industry, instagram_profile, facebook_profile, tiktok_profile, preffered_category, offce_address, phonenumber, email }),
+  });
+  return res.json();
+};
