@@ -2,6 +2,44 @@ import { CampaignInput } from "@/libs/types";
 
 export const API_URL = process.env.NEXT_PUBLIC_REST_API_URL;
 
+export const signIn = async ({ username, password }: { username: string; password: string }) => {
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+  var urlencoded = new URLSearchParams();
+  urlencoded.append("username", "test1");
+  urlencoded.append("password", "test");
+
+  await fetch("https://sagexer.com/login", {
+    method: "POST",
+    headers: myHeaders,
+    body: urlencoded,
+    redirect: "error",
+  })
+    .then((response) => response.json())
+    .then((result) => process.stdout.write(result))
+    .catch((error) => process.stdout.write(`error, ${JSON.stringify(error)}`));
+
+  const body = new FormData();
+
+  body.append("username", username);
+  body.append("password", password);
+
+  const request = fetch(API_URL + `/login`, {
+    method: "POST",
+
+    headers: {
+      "Content-type": "application/x-www-form-urlencoded",
+    },
+    body,
+  });
+  const res = await request;
+
+  console.log(`Res`, res);
+
+  return res.json();
+};
+
 export const getInfluencerList = async ({ limit, skip }: { limit: number; skip: number }) => {
   return await fetch(API_URL + `/influencer/list?limit=${limit}&skip=${skip}`, {
     method: "GET",
