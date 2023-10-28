@@ -6,9 +6,11 @@ import { Button, Divider, Form, Input, notification } from "antd";
 import { signIn as nextAuthSignIn } from "next-auth/react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 function Login() {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
@@ -18,10 +20,12 @@ function Login() {
 
   const handleAuth = (values: any) => {
     try {
+      setLoading(true);
       signIn({
         username: values.username,
         password: values.password,
       }).then((data) => {
+        setLoading(false);
         if (data?.access_token) {
           router.push("/admin/company/dashboard");
         }
@@ -52,7 +56,7 @@ function Login() {
                 <Input.Password />
               </Form.Item>
               <Form.Item>
-                <Button block htmlType="submit">
+                <Button block htmlType="submit" loading={loading}>
                   Login
                 </Button>
               </Form.Item>
