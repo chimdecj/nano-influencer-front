@@ -4,7 +4,7 @@ import { API_URL, getInfluencerList } from "@/api";
 import Icons from "@/components/common/Icons";
 import { User } from "@/libs/types";
 import { FileSearchOutlined } from "@ant-design/icons";
-import { Avatar, Button, Spin } from "antd";
+import { Avatar, Button, Spin, notification } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -14,18 +14,21 @@ const InfluencerDashboard = () => {
   const [influencerList, setInfluencerList] = useState<User[]>([]);
 
   useEffect(() => {
-    setLoading(true);
-    getInfluencerList({
-      limit: 90,
-      skip: 0,
-    })
-      .then((Response) => {
-        return Response.json();
-      })
-      .then((data) => {
+    try {
+      setLoading(true);
+      getInfluencerList({
+        limit: 90,
+        skip: 0,
+      }).then((data) => {
         setLoading(false);
         setInfluencerList(data);
       });
+    } catch (error) {
+      notification.error({
+        message: "Error",
+        description: "Data fetch error",
+      });
+    }
   }, []);
 
   const items = [

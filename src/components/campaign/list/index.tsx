@@ -95,27 +95,19 @@ function CampaignList() {
         org_id: 1,
         skip: 0,
         limit: 100,
-      })
-        .then((res) => {
-          return res.json();
-        })
-        .then((data) => {
-          setLoading(false);
-          setDataSource(data);
-        });
+      }).then((data) => {
+        setLoading(false);
+        Array.isArray(data) ? setDataSource(data as any) : setDataSource([]);
+      });
     } else {
       getCampaignList({
         org_id: 1,
         skip: 0,
         limit: 100,
-      })
-        .then((res) => {
-          return res.json();
-        })
-        .then((data) => {
-          setLoading(false);
-          setDataSource(data);
-        });
+      }).then((data) => {
+        setLoading(false);
+        Array.isArray(data) ? setDataSource(data as any) : setDataSource([]);
+      });
     }
   };
 

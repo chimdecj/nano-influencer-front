@@ -3,7 +3,7 @@
 import { getInfluencerList } from "@/api";
 import Icons from "@/components/common/Icons";
 import { User } from "@/libs/types";
-import { Avatar, Button, Table } from "antd";
+import { Avatar, Button, Table, notification } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -48,18 +48,21 @@ const AdminHomePage = () => {
   ];
 
   const getData = () => {
-    setLoading(true);
-    getInfluencerList({
-      skip: 0,
-      limit: 100,
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((data: User[]) => {
+    try {
+      setLoading(true);
+      getInfluencerList({
+        skip: 0,
+        limit: 100,
+      }).then((data: User[]) => {
         setLoading(false);
         setDataSource(data);
       });
+    } catch (error) {
+      notification.error({
+        message: "Error",
+        description: "Data fetch error",
+      });
+    }
   };
 
   useEffect(() => {

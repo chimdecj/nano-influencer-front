@@ -34,13 +34,13 @@ const CompanyNavItems: NavItem[] = [
   {
     key: "settings",
     label: "Settings",
-    href: "#!",
+    href: "/admin/company/settings",
     icon: <Icons.Settings size={18} />,
   },
   {
     key: "log-out",
     label: "Log out",
-    href: "/",
+    href: "/login",
     icon: <Icons.LogOut size={18} />,
   },
 ];

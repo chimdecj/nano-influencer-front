@@ -28,21 +28,10 @@ const CreateCampaignBasic = () => {
         status: 0,
         owner_id: 1,
         campaign_id: id,
-      })
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          } else {
-            notification.error({
-              message: "Update error",
-            });
-            return null;
-          }
-        })
-        .then((data) => {
-          setSubmitLoading(false);
-          router.push(`/admin/company/create/campaign/form?id=${data?.id}`);
-        });
+      }).then((data) => {
+        setSubmitLoading(false);
+        router.push(`/admin/company/create/campaign/form?id=${data?.id}`);
+      });
     } else {
       createCampaign({
         org_id: 1,
@@ -52,14 +41,10 @@ const CreateCampaignBasic = () => {
         owner_id: 1,
         created_date: moment(new Date()).format("YYYY-MM-DDTh:mm:ssZ"),
         status: 0,
-      })
-        .then((res) => {
-          setSubmitLoading(false);
-          return res.json();
-        })
-        .then((data) => {
-          router.push(`/admin/company/create/campaign/form?id=${data?.id}`);
-        });
+      }).then((data) => {
+        setSubmitLoading(false);
+        router.push(`/admin/company/create/campaign/form?id=${data?.id}`);
+      });
     }
   };
 

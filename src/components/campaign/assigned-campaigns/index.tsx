@@ -1,8 +1,8 @@
 "use client";
 
-import { getCampaignList, getCampaignListByStatus, influencerCampaigns } from "@/api";
+import { influencerCampaigns } from "@/api";
 import { Campaign } from "@/libs/types";
-import { Button, Table, Tag } from "antd";
+import { Button, Table, Tag, notification } from "antd";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -83,17 +83,20 @@ function InfluencerAssignedCampaignList() {
   ];
 
   const getData = () => {
-    setLoading(true);
-    influencerCampaigns({
-      influencer_id: 1,
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
+    try {
+      setLoading(true);
+      influencerCampaigns({
+        influencer_id: 1,
+      }).then((data: any) => {
         setLoading(false);
-        setDataSource(data);
+        Array.isArray(data) ? setDataSource(data as any) : setDataSource([]);
       });
+    } catch (error) {
+      notification.error({
+        message: "Error",
+        description: "Data fetch error",
+      });
+    }
   };
 
   useEffect(() => {

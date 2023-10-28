@@ -18,14 +18,10 @@ function CreateCampaignSubmit() {
     setSubmitLoading(true);
     submitCampaign({
       campaign_id: id,
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setSubmitLoading(false);
-        router.push("/admin/company/create/campaign/success");
-      });
+    }).then((data) => {
+      setSubmitLoading(false);
+      router.push("/admin/company/create/campaign/success");
+    });
   };
 
   return (

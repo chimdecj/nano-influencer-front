@@ -3,7 +3,7 @@
 import { getCampaignById, getInfluencerList, updateCampaignInfluencer } from "@/api";
 import Icons from "@/components/common/Icons";
 import { Campaign, User } from "@/libs/types";
-import { Avatar, Button, Empty, Form, Input } from "antd";
+import { Avatar, Button, Empty, Form, Input, notification } from "antd";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -19,16 +19,19 @@ const CreateCampaignPick = () => {
   const platform = Form.useWatch("platform", form);
 
   const getInfluencerData = () => {
-    getInfluencerList({
-      skip: 0,
-      limit: 100,
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((data: User[]) => {
+    try {
+      getInfluencerList({
+        skip: 0,
+        limit: 100,
+      }).then((data: User[]) => {
         setUserData(data);
       });
+    } catch (error) {
+      notification.error({
+        message: "Error",
+        description: "Data fetch error",
+      });
+    }
   };
 
   const addUser = (user: User) => {
@@ -46,14 +49,10 @@ const CreateCampaignPick = () => {
     updateCampaignInfluencer({
       campaign_id: id,
       influencer_ids: selectedUsers.map((item) => item.id),
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setSubmitLoading(false);
-        router.push(`/admin/company/create/campaign/submit?id=${id}`);
-      });
+    }).then((data) => {
+      setSubmitLoading(false);
+      router.push(`/admin/company/create/campaign/submit?id=${id}`);
+    });
   };
 
   useEffect(() => {

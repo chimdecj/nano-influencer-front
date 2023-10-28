@@ -4,8 +4,21 @@ import { getCampaignById } from "@/api";
 import { Campaign } from "@/libs/types";
 import { DatePicker, Image, Tabs, TabsProps } from "antd";
 import dayjs from "dayjs";
+import advancedFormat from "dayjs/plugin/advancedFormat";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import localeData from "dayjs/plugin/localeData";
+import weekOfYear from "dayjs/plugin/weekOfYear";
+import weekYear from "dayjs/plugin/weekYear";
+import weekday from "dayjs/plugin/weekday";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+
+dayjs.extend(customParseFormat);
+dayjs.extend(advancedFormat);
+dayjs.extend(weekday);
+dayjs.extend(localeData);
+dayjs.extend(weekOfYear);
+dayjs.extend(weekYear);
 
 const getPlatformName = (type: any) => {
   switch (type) {

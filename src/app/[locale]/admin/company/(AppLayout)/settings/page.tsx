@@ -1,7 +1,7 @@
 "use client";
 
 import { updateCompanyInfo } from "@/api";
-import { Button, Form, Input } from "antd";
+import { Button, Col, Form, Input, Row, notification } from "antd";
 import React, { useState } from "react";
 
 function CompanySetting() {
@@ -24,47 +24,55 @@ function CompanySetting() {
     setLoading(true);
     updateCompanyInfo({
       ...values,
-      user_id: companyId,
+      org_id: companyId,
     }).then((data) => {
-      console.log(data);
-
       setLoading(false);
+      notification.success({
+        message: "Successfully saved",
+      });
     });
   };
 
   return (
     <div>
-      <Form labelCol={{ span: 5 }} layout="horizontal" requiredMark="optional" onFinish={onFinish}>
-        <Form.Item name="name" label="Name" rules={[{ required: true, message: "Please input your name" }]}>
-          <Input placeholder="Neural link" />
-        </Form.Item>
-        <Form.Item name="industry" label="Industry" rules={[{ required: true, message: "Please input your industry" }]}>
-          <Input placeholder="Tech company..." />
-        </Form.Item>
-        <Form.Item name="sub_industry" label="Industry" rules={[{ required: true, message: "Please input your industry" }]}>
-          <Input placeholder="AI ML, Fintech..." />
-        </Form.Item>
-        <Form.Item name="preffered_category" label="Industry" rules={[{ required: true, message: "Please input your industry" }]}>
-          <Input placeholder="Sports brand, Tech company..." />
-        </Form.Item>
-        <Form.Item name="instagram_profile" label="Instagram username" rules={[{ required: true, message: "Please input your name" }]}>
-          <Input placeholder="elonmusk" />
-        </Form.Item>
-        <Form.Item name="tiktok_profile" label="Instagram username" rules={[{ required: true, message: "Please input your name" }]}>
-          <Input placeholder="elonmusk" />
-        </Form.Item>
-        <Form.Item name="facebook_profile" label="Instagram username" rules={[{ required: true, message: "Please input your name" }]}>
-          <Input placeholder="elonmusk" />
-        </Form.Item>
-        <Form.Item name="offce_address" label="Office address">
-          <Input placeholder="California, USA, Amberton 12-232" />
-        </Form.Item>
-        <Form.Item name="phonenumber" label="Phone number" rules={[{ required: true, message: "Please input your phone number" }]}>
-          <Input placeholder="+976 72119191" />
-        </Form.Item>
-        <Form.Item name="email" label="Email address" rules={[{ required: true, message: "Please input your email address" }]}>
-          <Input placeholder="neaural_link@x.com" />
-        </Form.Item>
+      <Form layout="vertical" requiredMark="optional" onFinish={onFinish}>
+        <Row gutter={[20, 20]}>
+          <Col span={12}>
+            <Form.Item name="name" label="Name" rules={[{ required: true, message: "Please input your name" }]}>
+              <Input placeholder="Input your name" />
+            </Form.Item>
+            <Form.Item name="industry" label="Industry" rules={[{ required: true, message: "Please input your industry" }]}>
+              <Input placeholder="Input your industry" />
+            </Form.Item>
+            <Form.Item name="sub_industry" label="Sub industry" rules={[{ required: true, message: "Please input your industry" }]}>
+              <Input placeholder="Input your sub industry" />
+            </Form.Item>
+            <Form.Item name="preffered_category" label="Preferred category" rules={[{ required: true, message: "Please input your industry" }]}>
+              <Input placeholder="Input your preferred category" />
+            </Form.Item>
+            <Form.Item name="email" label="Email address" rules={[{ required: true, message: "Please input your email address" }]}>
+              <Input placeholder="Input your email" />
+            </Form.Item>
+          </Col>
+
+          <Col span={12}>
+            <Form.Item name="instagram_profile" label="Instagram username" rules={[{ required: true, message: "Please input your name" }]}>
+              <Input placeholder="Input your Instagram" />
+            </Form.Item>
+            <Form.Item name="tiktok_profile" label="Tiktok username" rules={[{ required: true, message: "Please input your name" }]}>
+              <Input placeholder="Input your Tiktok" />
+            </Form.Item>
+            <Form.Item name="facebook_profile" label="Facebook username" rules={[{ required: true, message: "Please input your name" }]}>
+              <Input placeholder="Input your Facebook" />
+            </Form.Item>
+            <Form.Item name="offce_address" label="Office address">
+              <Input placeholder="Input your office address" />
+            </Form.Item>
+            <Form.Item name="phonenumber" label="Phone number" rules={[{ required: true, message: "Please input your phone number" }]}>
+              <Input placeholder="Input your phone number" />
+            </Form.Item>
+          </Col>
+        </Row>
         <div className="flex items-center justify-end gap-4">
           <Button shape="round" htmlType="reset">
             Reset

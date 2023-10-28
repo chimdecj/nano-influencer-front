@@ -5,9 +5,22 @@ import ImageUpload from "@/components/common/ImageUpload";
 import { Campaign } from "@/libs/types";
 import { Button, DatePicker, Form, Input } from "antd";
 import dayjs from "dayjs";
+import advancedFormat from "dayjs/plugin/advancedFormat";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import localeData from "dayjs/plugin/localeData";
+import weekOfYear from "dayjs/plugin/weekOfYear";
+import weekYear from "dayjs/plugin/weekYear";
+import weekday from "dayjs/plugin/weekday";
 import moment from "moment";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+
+dayjs.extend(customParseFormat);
+dayjs.extend(advancedFormat);
+dayjs.extend(weekday);
+dayjs.extend(localeData);
+dayjs.extend(weekOfYear);
+dayjs.extend(weekYear);
 
 const CreateCampaignForm = () => {
   const [form] = Form.useForm();
@@ -37,25 +50,17 @@ const CreateCampaignForm = () => {
       updateCampaign({
         campaign_id: id,
         ...params,
-      })
-        .then((res) => {
-          if (res.ok) return res.json();
-        })
-        .then((data) => {
-          if (data) router.push(`/admin/company/create/campaign/pick?id=${id}`);
-        });
+      }).then((data) => {
+        if (data) router.push(`/admin/company/create/campaign/pick?id=${id}`);
+      });
     } else {
       createCampaign({
         org_id: 1,
         ...params,
-      })
-        .then((res) => {
-          res.json();
-        })
-        .then((data) => {
-          setSubmitLoading(false);
-          router.push(id ? `/admin/company/create/campaign/pick?id=${id}` : "/admin/company/create/campaign/pick");
-        });
+      }).then((data) => {
+        setSubmitLoading(false);
+        router.push(id ? `/admin/company/create/campaign/pick?id=${id}` : "/admin/company/create/campaign/pick");
+      });
     }
   };
 
