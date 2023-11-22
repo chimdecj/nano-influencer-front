@@ -1,6 +1,7 @@
 "use client";
 
 import { MainNav } from "./MainNav";
+import { getMeData } from "@/api";
 import Icons from "@/components/common/Icons";
 import ThemeToggle from "@/components/settings/ThemeToggle";
 import { Button } from "antd";

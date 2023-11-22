@@ -40,7 +40,7 @@ const CompanyNavItems: NavItem[] = [
   {
     key: "log-out",
     label: "Log out",
-    href: "/login",
+    href: "/logout",
     icon: <Icons.LogOut size={18} />,
   },
 ];

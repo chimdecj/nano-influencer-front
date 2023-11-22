@@ -1036,6 +1036,11 @@ concat-map@0.0.1:
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
 
+cookie-cutter@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/cookie-cutter/-/cookie-cutter-0.2.0.tgz#5988f598b68c060a00ec8524ad6e6aa193e72244"
+  integrity sha512-eVyP5liHjDMCmGlp2OD+qoin5TJlwUBRjBKN8R2yJ3ePf8xqUtqmRP6e36ipe0nBm2lTiertH6iHPOptNQzAEw==
+
 cookie@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.5.0.tgz#d1f5d71adec6558c58f389987c366aa47e994f8b"
