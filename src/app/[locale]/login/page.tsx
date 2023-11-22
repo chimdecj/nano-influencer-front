@@ -3,7 +3,7 @@
 import { signIn } from "@/api";
 import Icons from "@/components/common/Icons";
 import { Button, Divider, Form, Input, notification } from "antd";
-import cookieCutter from "cookie-cutter";
+import { setCookie } from "cookies-next";
 import { signIn as nextAuthSignIn } from "next-auth/react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -28,7 +28,7 @@ function Login() {
       }).then((data: any) => {
         setLoading(false);
         if (data?.access_token) {
-          cookieCutter.set("token", data.access_token);
+          setCookie("token", data.access_token);
           router.push("/admin/company/dashboard");
         }
 

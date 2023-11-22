@@ -1,13 +1,9 @@
 import UserSection from "../UserSection";
 import { SideNav } from "./SideNav";
 import { SiteHeader } from "./SiteHeader";
-// import cookieCutter from "cookie-cutter";
 import React from "react";
 
-export default async function InfluencerLayout({ children }: { children: React.ReactNode }) {
-  console.log("InfluencerLayout");
-  // console.log(cookieCutter.get("token"));
-
+export default function InfluencerLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="h-full bg-white dark:bg-gray-1000 overflow-auto">
       <SiteHeader />

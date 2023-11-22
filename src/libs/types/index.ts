@@ -1,5 +1,6 @@
 export interface User {
   id: string | number;
+  username: string;
   bank: string;
   bankaccount: string;
   category: string;

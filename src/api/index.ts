@@ -1,9 +1,9 @@
 import { CampaignInput } from "@/libs/types";
-import cookieCutter from "cookie-cutter";
+import { getCookie } from "cookies-next";
 
 export const API_URL = process.env.NEXT_PUBLIC_REST_API_URL;
 
-// const token = cookieCutter.get("token");
+// const token = getCookie("token");
 
 export const signIn = async ({ username, password }: { username: string; password: string }) => {
   const body = new URLSearchParams();
@@ -25,7 +25,7 @@ export const getMeData = async () => {
     method: "GET",
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${cookieCutter.get("token")}`,
+      Authorization: `Bearer ${getCookie("token")}`,
     },
   });
   return res.json();
@@ -36,7 +36,7 @@ export const getInfluencerList = async ({ limit, skip }: { limit: number; skip: 
     method: "GET",
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${cookieCutter.get("token")}`,
+      Authorization: `Bearer ${getCookie("token")}`,
     },
   });
   return res.json();
@@ -47,7 +47,7 @@ export const getCampaignList = async ({ org_id, limit, skip }: { org_id: number;
     method: "GET",
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${cookieCutter.get("token")}`,
+      Authorization: `Bearer ${getCookie("token")}`,
     },
   });
   return res.json();
@@ -58,7 +58,7 @@ export const getCampaignListByStatus = async ({ status, org_id, limit, skip }: {
     method: "GET",
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${cookieCutter.get("token")}`,
+      Authorization: `Bearer ${getCookie("token")}`,
     },
   });
   return res.json();
@@ -82,7 +82,7 @@ export const createCampaign = async ({
     method: "POST",
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${cookieCutter.get("token")}`,
+      Authorization: `Bearer ${getCookie("token")}`,
     },
     body: JSON.stringify({ status, type, platform_type, title, owner_id, created_date, start_date_time, end_date_time, purpose, wording, guidance }),
   });
@@ -107,7 +107,7 @@ export const updateCampaign = async ({
     method: "POST",
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${cookieCutter.get("token")}`,
+      Authorization: `Bearer ${getCookie("token")}`,
     },
     body: JSON.stringify({ status, type, platform_type, title, owner_id, created_date, start_date_time, end_date_time, purpose, wording, guidance }),
   });
@@ -119,7 +119,7 @@ export const updateCampaignInfluencer = async ({ campaign_id, influencer_ids }: 
     method: "POST",
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${cookieCutter.get("token")}`,
+      Authorization: `Bearer ${getCookie("token")}`,
     },
     body: JSON.stringify(influencer_ids),
   });
@@ -131,7 +131,7 @@ export const uploadImage = async ({ file }: { file: any }) => {
     method: "POST",
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${cookieCutter.get("token")}`,
+      Authorization: `Bearer ${getCookie("token")}`,
     },
     body: JSON.stringify({ file }),
   });
@@ -143,7 +143,7 @@ export const uploadCampaignImage = async ({ campaign_id, file }: { campaign_id: 
     method: "POST",
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${cookieCutter.get("token")}`,
+      Authorization: `Bearer ${getCookie("token")}`,
     },
     body: JSON.stringify({ file }),
   });
@@ -155,7 +155,7 @@ export const getCampaignById = async ({ campaign_id }: { campaign_id: string }) 
     method: "GET",
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${cookieCutter.get("token")}`,
+      Authorization: `Bearer ${getCookie("token")}`,
     },
   });
   return res.json();
@@ -166,7 +166,7 @@ export const submitCampaign = async ({ campaign_id }: { campaign_id: string }) =
     method: "POST",
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${cookieCutter.get("token")}`,
+      Authorization: `Bearer ${getCookie("token")}`,
     },
   });
   return res.json();
@@ -177,7 +177,7 @@ export const influencerCampaigns = async ({ influencer_id }: { influencer_id: nu
     method: "GET",
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${cookieCutter.get("token")}`,
+      Authorization: `Bearer ${getCookie("token")}`,
     },
   });
   return res.json();
@@ -212,7 +212,7 @@ export const updateCompanyInfo = async ({
     method: "PATCH",
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${cookieCutter.get("token")}`,
+      Authorization: `Bearer ${getCookie("token")}`,
     },
     body: JSON.stringify({ name, industry, sub_industry, instagram_profile, facebook_profile, tiktok_profile, preffered_category, offce_address, phonenumber, email }),
   });
@@ -258,7 +258,7 @@ export const updateInfluencerInfo = async ({
     method: "PATCH",
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${cookieCutter.get("token")}`,
+      Authorization: `Bearer ${getCookie("token")}`,
     },
     body: JSON.stringify({
       phonenumber,
@@ -286,7 +286,7 @@ export const getInfluencerById = async ({ influencer_id }: { influencer_id: stri
     method: "GET",
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${cookieCutter.get("token")}`,
+      Authorization: `Bearer ${getCookie("token")}`,
     },
   });
   return res.json();

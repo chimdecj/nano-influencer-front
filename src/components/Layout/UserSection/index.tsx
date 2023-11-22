@@ -1,11 +1,12 @@
 "use client";
 
 import { getMeData } from "@/api";
+import { User } from "@/libs/types";
 import { Avatar } from "antd";
 import React, { useEffect, useState } from "react";
 
 const UserSection = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState<User>();
   const getData = () => {
     getMeData().then((res) => {
       console.log("res");

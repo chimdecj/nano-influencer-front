@@ -1,7 +1,7 @@
 "use client";
 
 // import { cookies } from "next/headers";
-import cookieCutter from "cookie-cutter";
+import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -9,7 +9,7 @@ function Login() {
   const router = useRouter();
   useEffect(() => {
     // cookies().delete("token");
-    cookieCutter.set("token", null);
+    setCookie("token", null);
     router.push("/login");
   }, []);
 
