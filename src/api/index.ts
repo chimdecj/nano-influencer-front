@@ -291,3 +291,14 @@ export const getInfluencerById = async ({ influencer_id }: { influencer_id: stri
   });
   return res.json();
 };
+
+export const getUserById = async ({ id }: { id: string | number }) => {
+  const res = await fetch(API_URL + `/user?id=${id}`, {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${getCookie("token")}`,
+    },
+  });
+  return res.json();
+};

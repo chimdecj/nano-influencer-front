@@ -1,12 +1,21 @@
 "use client";
 
-import { updateCompanyInfo } from "@/api";
+import { getUserById, updateCompanyInfo } from "@/api";
 import { Button, Col, Form, Input, Row, notification } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function CompanySetting() {
   const companyId = 1;
   const [loading, setLoading] = useState(false);
+
+  const getData = () => {
+    getUserById({
+      id: 5,
+    }).then((res) => {
+      console.log("res");
+      console.log(res);
+    });
+  };
 
   const onFinish = (values: {
     user_id: number;
@@ -32,6 +41,10 @@ function CompanySetting() {
       });
     });
   };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <div>

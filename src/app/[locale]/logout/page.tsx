@@ -10,6 +10,7 @@ function Login() {
   useEffect(() => {
     // cookies().delete("token");
     setCookie("token", null);
+    window.localStorage.clear();
     router.push("/login");
   }, []);
 

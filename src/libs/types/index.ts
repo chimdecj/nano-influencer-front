@@ -17,6 +17,16 @@ export interface User {
   work_address: string;
   work_name: string;
   work_position: string;
+  user_type: number;
+}
+
+export interface UserBasic {
+  id: number;
+  inf_id: number;
+  org_id: number;
+  user_status: number; // 0 - uncompleted 1 - done
+  user_type: number;
+  username: string;
 }
 
 export interface Campaign {

@@ -1,6 +1,8 @@
 "use client";
 
 import { getInfluencerById, updateInfluencerInfo } from "@/api";
+import { getUserBasic } from "@/libs/common";
+import { UserBasic } from "@/libs/types";
 import { Button, Col, DatePicker, Form, Input, InputNumber, Row, Select, notification } from "antd";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
@@ -19,35 +21,44 @@ dayjs.extend(localeData);
 dayjs.extend(weekOfYear);
 dayjs.extend(weekYear);
 
-function CompanySetting() {
-  const influencerId = 1;
+function UserSetting() {
+  const [userBasic, setUserBasic] = useState<UserBasic>();
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
 
   useEffect(() => {
-    getInfluencerById({
-      influencer_id: influencerId,
-    }).then((data) => {
-      const date = data.dateofbirth ? dayjs(data.dateofbirth, "YYYY-MM-DD") : null;
-      form.setFieldsValue({
-        ...data,
-        dateofbirth: date,
-      });
-    });
+    const userBasic = getUserBasic();
+    setUserBasic(userBasic);
   }, []);
 
-  const onFinish = (values: any) => {
-    setLoading(true);
-    updateInfluencerInfo({
-      ...values,
-      dateofbirth: moment(values.dateofbirth).format("YYYY-MM-DD"),
-      influencer_id: influencerId,
-    }).then((data) => {
-      setLoading(false);
-      notification.success({
-        message: "Successfully saved",
+  useEffect(() => {
+    if (userBasic) {
+      getInfluencerById({
+        influencer_id: userBasic.inf_id,
+      }).then((data) => {
+        const date = data.dateofbirth ? dayjs(data.dateofbirth, "YYYY-MM-DD") : null;
+        form.setFieldsValue({
+          ...data,
+          dateofbirth: date,
+        });
       });
-    });
+    }
+  }, [form, userBasic]);
+
+  const onFinish = (values: any) => {
+    if (userBasic) {
+      setLoading(true);
+      updateInfluencerInfo({
+        ...values,
+        dateofbirth: moment(values.dateofbirth).format("YYYY-MM-DD"),
+        influencer_id: userBasic.inf_id,
+      }).then((data) => {
+        setLoading(false);
+        notification.success({
+          message: "Successfully saved",
+        });
+      });
+    }
   };
 
   return (
@@ -128,4 +139,4 @@ function CompanySetting() {
   );
 }
 
-export default CompanySetting;
+export default UserSetting;

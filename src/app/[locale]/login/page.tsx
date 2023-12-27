@@ -1,7 +1,8 @@
 "use client";
 
-import { signIn } from "@/api";
+import { getMeData, signIn } from "@/api";
 import Icons from "@/components/common/Icons";
+import { setUserBasic } from "@/libs/common";
 import { Button, Divider, Form, Input, notification } from "antd";
 import { setCookie } from "cookies-next";
 import { signIn as nextAuthSignIn } from "next-auth/react";
@@ -25,14 +26,36 @@ function Login() {
       signIn({
         username: values.username,
         password: values.password,
-      }).then((data: any) => {
-        setLoading(false);
+      }).then(async (data: any) => {
         if (data?.access_token) {
           setCookie("token", data.access_token);
-          router.push("/admin/company/dashboard");
+          await new Promise((resolve) => setTimeout(resolve, 500));
+          getMeData().then((meData: any) => {
+            setLoading(false);
+            setUserBasic(meData);
+            switch (meData.user_type) {
+              case 0:
+                if (meData.user_status === 0) {
+                  router.push("/admin/company/settings");
+                } else {
+                  router.push("/admin/company/dashboard");
+                }
+                break;
+              case 1:
+                if (meData.user_status === 0) {
+                  router.push("/admin/influencer/settings");
+                } else {
+                  router.push("/admin/influencer/dashboard");
+                }
+                break;
+              default:
+                break;
+            }
+          });
         }
 
         if (data?.detail) {
+          setLoading(false);
           notification.error({
             message: "Error",
             description: data?.detail,
