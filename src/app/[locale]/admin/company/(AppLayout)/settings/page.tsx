@@ -1,16 +1,19 @@
 "use client";
 
 import { getUserById, updateCompanyInfo } from "@/api";
+import { getUserBasic } from "@/libs/common";
+import { UserBasic } from "@/libs/types";
 import { Button, Col, Form, Input, Row, notification } from "antd";
 import React, { useEffect, useState } from "react";
 
 function CompanySetting() {
   const companyId = 1;
   const [loading, setLoading] = useState(false);
+  const [userBasic, setUserBasic] = useState<UserBasic>();
 
   const getData = () => {
     getUserById({
-      id: 5,
+      id: userBasic?.org_id,
     }).then((res) => {
       console.log("res");
       console.log(res);
@@ -43,8 +46,12 @@ function CompanySetting() {
   };
 
   useEffect(() => {
-    getData();
+    setUserBasic(getUserBasic());
   }, []);
+
+  useEffect(() => {
+    getData();
+  }, [userBasic]);
 
   return (
     <div>

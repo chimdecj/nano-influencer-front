@@ -33,7 +33,13 @@ function Login() {
           getMeData().then((meData: any) => {
             setLoading(false);
             setUserBasic(meData);
-            switch (meData.user_type) {
+            let type;
+            if (meData.inf_id) {
+              type = 1;
+            } else if (meData.org_id) {
+              type = 0;
+            }
+            switch (type) {
               case 0:
                 if (meData.user_status === 0) {
                   router.push("/admin/company/settings");

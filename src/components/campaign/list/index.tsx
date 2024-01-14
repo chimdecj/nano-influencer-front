@@ -1,7 +1,8 @@
 "use client";
 
 import { getCampaignList, getCampaignListByStatus } from "@/api";
-import { Campaign } from "@/libs/types";
+import { getUserBasic } from "@/libs/common";
+import { Campaign, UserBasic } from "@/libs/types";
 import { Button, Table, Tag } from "antd";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -12,6 +13,7 @@ function CampaignList() {
   const status = searchParams.get("status");
   const [loading, setLoading] = useState<boolean>(false);
   const [dataSource, setDataSource] = useState([]);
+  const [userBasic, setUserBasic] = useState<UserBasic>();
 
   const columns = [
     {
@@ -88,11 +90,13 @@ function CampaignList() {
   ];
 
   const getData = () => {
+    console.log("userBasic");
+    console.log(userBasic?.org_id);
     setLoading(true);
     if (status) {
       getCampaignListByStatus({
         status: status as string,
-        org_id: 1,
+        org_id: userBasic?.org_id,
         skip: 0,
         limit: 100,
       }).then((data) => {
@@ -101,7 +105,7 @@ function CampaignList() {
       });
     } else {
       getCampaignList({
-        org_id: 1,
+        org_id: userBasic?.org_id,
         skip: 0,
         limit: 100,
       }).then((data) => {
@@ -112,8 +116,14 @@ function CampaignList() {
   };
 
   useEffect(() => {
-    getData();
-  }, [status]);
+    setUserBasic(getUserBasic());
+  }, []);
+
+  useEffect(() => {
+    if (userBasic) {
+      getData();
+    }
+  }, [status, userBasic]);
 
   return (
     <div className="space-y-4">

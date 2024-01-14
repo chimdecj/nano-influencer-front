@@ -54,6 +54,8 @@ export const getCampaignList = async ({ org_id, limit, skip }: { org_id: number;
 };
 
 export const getCampaignListByStatus = async ({ status, org_id, limit, skip }: { status: string; org_id: number; limit: number; skip: number }) => {
+  console.log("aorg_id");
+  console.log(org_id);
   const res = await fetch(API_URL + `/campaigns/status?status=${status}&org_id=${org_id}&limit=${limit}&skip=${skip}`, {
     method: "GET",
     headers: {
@@ -293,6 +295,17 @@ export const getInfluencerById = async ({ influencer_id }: { influencer_id: stri
 };
 
 export const getUserById = async ({ id }: { id: string | number }) => {
+  const res = await fetch(API_URL + `/user?id=${id}`, {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${getCookie("token")}`,
+    },
+  });
+  return res.json();
+};
+
+export const getCompanyById = async ({ id }: { id: string | number }) => {
   const res = await fetch(API_URL + `/user?id=${id}`, {
     method: "GET",
     headers: {
