@@ -16,7 +16,7 @@ const CompanyNavItems: NavItem[] = [
   {
     key: "campaigns",
     href: "/admin/company/campaign/list",
-    label: "Campaign list",
+    label: "All campaigns",
     icon: <Icons.List size={18} />,
   },
   {

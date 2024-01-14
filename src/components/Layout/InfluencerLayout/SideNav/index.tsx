@@ -16,7 +16,7 @@ const InfluencerNavItems: NavItem[] = [
   {
     key: "campaigns",
     href: "/admin/influencer/campaign/list",
-    label: "New campaigns",
+    label: "All campaigns",
     icon: <Icons.List size={18} />,
   },
   {

@@ -12,12 +12,12 @@ function CompanySetting() {
   const [userBasic, setUserBasic] = useState<UserBasic>();
 
   const getData = () => {
-    getUserById({
-      id: userBasic?.org_id as number,
-    }).then((res) => {
-      console.log("res");
-      console.log(res);
-    });
+    // getCompanyById({
+    //   id: userBasic?.org_id as number,
+    // }).then((res) => {
+    //   console.log("res");
+    //   console.log(res);
+    // });
   };
 
   const onFinish = (values: {

@@ -24,6 +24,13 @@ function InfluencerAssignedCampaignList() {
       title: "Name",
       dataIndex: "title",
       key: "title",
+      render: (title: string, record: Campaign) => {
+        return (
+          <Link href={`/admin/influencer/campaign/${record.id}`}>
+            <div>{title}</div>
+          </Link>
+        );
+      },
     },
     {
       title: "Platform",

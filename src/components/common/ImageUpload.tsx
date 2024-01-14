@@ -31,7 +31,12 @@ function ImageUpload({
   const [previewTitle, setPreviewTitle] = useState("");
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
-  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) => setFileList(newFileList);
+  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
+    if (onUploadSuccess && newFileList[0]) {
+      onUploadSuccess(newFileList[0].response.file_url);
+    }
+    setFileList(newFileList);
+  };
 
   const handleCancel = () => setPreviewOpen(false);
 

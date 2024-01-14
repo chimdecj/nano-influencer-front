@@ -326,3 +326,44 @@ export const getCompanyById = async ({ id }: { id: string | number }) => {
   });
   return res.json();
 };
+
+export const getCampaignStory = async ({ campaign_id, limit, skip }: { campaign_id: string; limit: number; skip: number }) => {
+  const res = await fetch(API_URL + `/campaigns/stories?campaign_id=${campaign_id}&limit=${limit}&skip=${skip}`, {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${getCookie("token")}`,
+    },
+  });
+  return res.json();
+};
+
+export const createCampaignStory = async ({
+  campaign_id,
+  inf_id,
+  original_link,
+  thumb_path,
+  story_path,
+}: {
+  campaign_id: string;
+  inf_id: number;
+  original_link: string;
+  thumb_path: string;
+  story_path: string;
+}) => {
+  const res = await fetch(API_URL + `/story/create`, {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${getCookie("token")}`,
+    },
+    body: JSON.stringify({
+      campaign_id,
+      inf_id,
+      original_link,
+      thumb_path,
+      story_path,
+    }),
+  });
+  return res.json();
+};

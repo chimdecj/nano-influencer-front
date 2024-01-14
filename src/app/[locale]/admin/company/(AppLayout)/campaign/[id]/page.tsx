@@ -33,7 +33,7 @@ function CampaignDetail() {
 
   const items = [
     {
-      label: "Camptain detail",
+      label: "Campaign detail",
       key: "1",
       children: (
         <div className="space-y-2">
@@ -78,6 +78,18 @@ function CampaignDetail() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      label: "Stories",
+      key: "3",
+      children: (
+        <div className="space-y-2">
+          <div>
+            <div className="font-semibold">Posted Stories</div>
+            <div>{data?.wording}</div>
           </div>
         </div>
       ),
