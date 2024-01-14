@@ -90,13 +90,11 @@ function CampaignList() {
   ];
 
   const getData = () => {
-    console.log("userBasic");
-    console.log(userBasic?.org_id);
     setLoading(true);
     if (status) {
       getCampaignListByStatus({
         status: status as string,
-        org_id: userBasic?.org_id,
+        org_id: userBasic?.org_id as number,
         skip: 0,
         limit: 100,
       }).then((data) => {
@@ -105,7 +103,7 @@ function CampaignList() {
       });
     } else {
       getCampaignList({
-        org_id: userBasic?.org_id,
+        org_id: userBasic?.org_id as number,
         skip: 0,
         limit: 100,
       }).then((data) => {

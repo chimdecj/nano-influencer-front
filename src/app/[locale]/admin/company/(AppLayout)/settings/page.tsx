@@ -13,7 +13,7 @@ function CompanySetting() {
 
   const getData = () => {
     getUserById({
-      id: userBasic?.org_id,
+      id: userBasic?.org_id as number,
     }).then((res) => {
       console.log("res");
       console.log(res);
