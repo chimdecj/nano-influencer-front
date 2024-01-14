@@ -53,6 +53,17 @@ export const getCampaignList = async ({ org_id, limit, skip }: { org_id: number;
   return res.json();
 };
 
+export const getActiveCampaignList = async ({ org_id, limit, skip }: { org_id: number; limit: number; skip: number }) => {
+  const res = await fetch(API_URL + `/campaigns/active_sumbitted?org_id=${org_id}&limit=${limit}&skip=${skip}`, {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${getCookie("token")}`,
+    },
+  });
+  return res.json();
+};
+
 export const getCampaignListByStatus = async ({ status, org_id, limit, skip }: { status: string; org_id: number; limit: number; skip: number }) => {
   console.log("aorg_id");
   console.log(org_id);

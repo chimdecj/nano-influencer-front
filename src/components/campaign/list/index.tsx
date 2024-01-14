@@ -1,6 +1,6 @@
 "use client";
 
-import { getCampaignList, getCampaignListByStatus } from "@/api";
+import { getActiveCampaignList, getCampaignList, getCampaignListByStatus } from "@/api";
 import { getUserBasic } from "@/libs/common";
 import { Campaign, UserBasic } from "@/libs/types";
 import { Button, Table, Tag } from "antd";
@@ -99,8 +99,7 @@ function CampaignList() {
   const getData = () => {
     setLoading(true);
     if (status) {
-      getCampaignListByStatus({
-        status: status as string,
+      getActiveCampaignList({
         org_id: userBasic?.org_id as number,
         skip: 0,
         limit: 100,
