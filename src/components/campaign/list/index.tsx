@@ -20,6 +20,13 @@ function CampaignList() {
       title: "Name",
       dataIndex: "title",
       key: "title",
+      render: (title: string, record: Campaign) => {
+        return (
+          <Link href={`/admin/company/campaign/${record.id}`}>
+            <div>{title}</div>
+          </Link>
+        );
+      },
     },
     {
       title: "Platform",

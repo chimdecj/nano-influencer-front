@@ -2,7 +2,8 @@
 
 import { API_URL, createCampaign, getCampaignById, updateCampaign } from "@/api";
 import ImageUpload from "@/components/common/ImageUpload";
-import { Campaign } from "@/libs/types";
+import { getUserBasic } from "@/libs/common";
+import { Campaign, UserBasic } from "@/libs/types";
 import { Button, DatePicker, Form, Input } from "antd";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
@@ -23,6 +24,7 @@ dayjs.extend(weekOfYear);
 dayjs.extend(weekYear);
 
 const CreateCampaignForm = () => {
+  const [userBasic, setUserBasic] = useState<UserBasic>();
   const [form] = Form.useForm();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -31,17 +33,22 @@ const CreateCampaignForm = () => {
   const [submitLoading, setSubmitLoading] = useState(false);
   const campaign_images = Form.useWatch("campaign_images", form);
 
+  useEffect(() => {
+    const userBasic = getUserBasic();
+    setUserBasic(userBasic);
+  }, []);
+
   const onFinish = (values: any) => {
     setSubmitLoading(true);
     let params = {
-      owner_id: 2,
+      owner_id: userBasic?.org_id,
       status: 0,
       type: 0,
       platform_type: 0,
       title: values.title,
-      created_date: moment().format("YYYY-MM-DD HH:mm:ss"),
-      start_date_time: values.date[0],
-      end_date_time: values.date[1],
+      // created_date: moment().format("YYYY-MM-DD HH:mm:ss"),
+      start_date_time: moment(values.date[0]).format("YYYY-MM-DD"),
+      end_date_time: moment(values.date[1]).format("YYYY-MM-DD"),
       purpose: values.purpose,
       wording: values.wording,
       guidance: values.guidance,
@@ -51,15 +58,21 @@ const CreateCampaignForm = () => {
         campaign_id: id,
         ...params,
       }).then((data) => {
-        if (data) router.push(`/admin/company/create/campaign/pick?id=${id}`);
+        if (data) {
+          if (id) {
+            router.push(`/admin/company/create/campaign/pick?id=${id}`);
+          }
+        }
       });
     } else {
       createCampaign({
-        org_id: 1,
+        org_id: userBasic?.org_id,
         ...params,
       }).then((data) => {
         setSubmitLoading(false);
-        router.push(id ? `/admin/company/create/campaign/pick?id=${id}` : "/admin/company/create/campaign/pick");
+        if (id) {
+          router.push(id ? `/admin/company/create/campaign/pick?id=${id}` : "/admin/company/create/campaign/pick");
+        }
       });
     }
   };

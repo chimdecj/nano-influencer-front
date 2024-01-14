@@ -3,13 +3,15 @@
 import { createCampaign, getCampaignById, updateCampaign } from "@/api";
 import SelectCard from "@/components/SelectCard";
 import Icons from "@/components/common/Icons";
-import { Campaign } from "@/libs/types";
-import { Button, Form, notification } from "antd";
+import { getUserBasic } from "@/libs/common";
+import { Campaign, UserBasic } from "@/libs/types";
+import { Button, Form, Input, notification } from "antd";
 import moment from "moment";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const CreateCampaignBasic = () => {
+  const [userBasic, setUserBasic] = useState<UserBasic>();
   const [form] = Form.useForm();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -18,15 +20,20 @@ const CreateCampaignBasic = () => {
   const type = Form.useWatch("type", form);
   const [submitLoading, setSubmitLoading] = useState(false);
 
+  useEffect(() => {
+    const userBasic = getUserBasic();
+    setUserBasic(userBasic);
+  }, []);
+
   const onFinish = (values: any) => {
     setSubmitLoading(true);
-    let r = (Math.random() + 1).toString(36).substring(7);
     if (id) {
       updateCampaign({
         platform_type: values.platform,
         type: values.type,
         status: 0,
-        owner_id: 1,
+        title: values.title,
+        owner_id: userBasic?.org_id,
         campaign_id: id,
       }).then((data) => {
         setSubmitLoading(false);
@@ -34,10 +41,10 @@ const CreateCampaignBasic = () => {
       });
     } else {
       createCampaign({
-        org_id: 1,
+        org_id: userBasic?.org_id,
         type: values.type,
         platform_type: values.platform,
-        title: r,
+        title: values.title,
         owner_id: 1,
         created_date: moment(new Date()).format("YYYY-MM-DDTh:mm:ssZ"),
         status: 0,
@@ -100,6 +107,7 @@ const CreateCampaignBasic = () => {
       campaign_id: id as string,
     }).then((data: Campaign) => {
       form.setFieldsValue({
+        name: data.title,
         platform: data.platform_type,
         type: data.type,
       });
@@ -114,6 +122,9 @@ const CreateCampaignBasic = () => {
 
   return (
     <Form form={form} onFinish={onFinish} layout="vertical">
+      <Form.Item label="Name" name="title" rules={[{ required: true }]}>
+        <Input placeholder="Write your campaign name" />
+      </Form.Item>
       <Form.Item label="Choose your social media" name="platform" rules={[{ required: true }]}>
         <div className="grid grid-cols-3 gap-6">
           {socialMedias.map((item, index) => (

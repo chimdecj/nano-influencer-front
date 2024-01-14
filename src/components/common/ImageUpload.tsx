@@ -2,6 +2,7 @@ import Icons from "./Icons";
 import { API_URL } from "@/api";
 import { Modal, Image, Upload, UploadFile, UploadProps } from "antd";
 import { RcFile } from "antd/lib/upload";
+import { getCookie } from "cookies-next";
 import React, { useEffect, useState } from "react";
 
 const getBase64 = (file: RcFile): Promise<string> =>
@@ -63,7 +64,16 @@ function ImageUpload({
 
   return (
     <div>
-      <Upload action={uploadUrl} listType="picture-card" fileList={fileList} onPreview={handlePreview} onChange={handleChange}>
+      <Upload
+        action={uploadUrl}
+        headers={{
+          Authorization: `Bearer ${getCookie("token")}`,
+        }}
+        listType="picture-card"
+        fileList={fileList}
+        onPreview={handlePreview}
+        onChange={handleChange}
+      >
         {fileList.length >= 8 ? null : uploadButton}
       </Upload>
       <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
