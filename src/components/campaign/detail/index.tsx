@@ -23,7 +23,7 @@ dayjs.extend(localeData);
 dayjs.extend(weekOfYear);
 dayjs.extend(weekYear);
 
-const getPlatformName = (type: any) => {
+export const getPlatformName = (type: any) => {
   switch (type) {
     case 0:
       return "Instagram";

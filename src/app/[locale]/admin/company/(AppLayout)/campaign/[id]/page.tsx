@@ -1,11 +1,31 @@
 "use client";
 
 import { getCampaignById } from "@/api";
+import { getPlatformName } from "@/components/campaign/detail";
 import { getUserBasic } from "@/libs/common";
 import { Campaign, UserBasic } from "@/libs/types";
-import { Tabs, Image } from "antd";
+import { Tabs, Image, DatePicker } from "antd";
+import dayjs from "dayjs";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+
+const dateFormat = "YYYY-MM-DD";
+
+export const getPlanType = (type: number) => {
+  switch (type) {
+    case 1:
+      return "Easy Awareness";
+    case 2:
+      return "Product Seed";
+    case 3:
+      return "Mass story, launch event or product";
+    case 4:
+      return "Mass story, launch event or product";
+
+    default:
+      break;
+  }
+};
 
 function CampaignDetail() {
   const router = useRouter();
@@ -36,22 +56,27 @@ function CampaignDetail() {
       label: "Campaign detail",
       key: "1",
       children: (
-        <div className="space-y-2">
+        <div className="space-y-3">
           <div>
             <div className="font-semibold">Campaign name</div>
             <div>{data?.title}</div>
           </div>
-          <div>
-            <div className="font-semibold">Campaign type </div>
+          {/* <div>
+            <div className="font-semibold">Plan type </div>
+            <div>{getPlanType(data?.type)}</div>
             <div>{data?.type}</div>
+          </div> */}
+          <div>
+            <div className="font-semibold">Platform </div>
+            <div>{getPlatformName(data?.platform_type)}</div>
           </div>
           <div>
             <div className="font-semibold">Start date </div>
-            <div>{data?.start_date_time}</div>
-          </div>
-          <div>
-            <div className="font-semibold">End date </div>
-            <div>{data?.end_date_time}</div>
+            <div>
+              {data?.start_date_time && data?.end_date_time && (
+                <DatePicker.RangePicker disabled defaultValue={[dayjs(data?.start_date_time, dateFormat), dayjs(data?.end_date_time, dateFormat)]} />
+              )}
+            </div>
           </div>
           <div>
             <div className="font-semibold">Goal purpose</div>
