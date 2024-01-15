@@ -11,21 +11,21 @@ import React, { useEffect, useState } from "react";
 
 const dateFormat = "YYYY-MM-DD";
 
-export const getPlanType = (type: number) => {
-  switch (type) {
-    case 1:
-      return "Easy Awareness";
-    case 2:
-      return "Product Seed";
-    case 3:
-      return "Mass story, launch event or product";
-    case 4:
-      return "Mass story, launch event or product";
+// export const getPlanType = (type: number) => {
+//   switch (type) {
+//     case 1:
+//       return "Easy Awareness";
+//     case 2:
+//       return "Product Seed";
+//     case 3:
+//       return "Mass story, launch event or product";
+//     case 4:
+//       return "Mass story, launch event or product";
 
-    default:
-      break;
-  }
-};
+//     default:
+//       break;
+//   }
+// };
 
 function CampaignDetail() {
   const router = useRouter();
