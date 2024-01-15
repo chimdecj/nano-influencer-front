@@ -20,6 +20,20 @@ export interface User {
   user_type: number;
 }
 
+export interface Company {
+  name: string;
+  industry: string;
+  sub_industry: string;
+  instagram_profile: string;
+  facebook_profile: string;
+  tiktok_profile: string;
+  preffered_category: string;
+  offce_address: string;
+  phonenumber: number;
+  email: string;
+  id: number;
+}
+
 export interface UserBasic {
   id: number;
   inf_id: number;

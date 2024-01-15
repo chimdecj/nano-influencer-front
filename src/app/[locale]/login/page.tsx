@@ -51,7 +51,7 @@ function Login() {
                 if (meData.user_status === 0) {
                   router.push("/admin/influencer/settings");
                 } else {
-                  router.push("/admin/influencer/dashboard");
+                  router.push("/admin/influencer/campaign/list");
                 }
                 break;
               default:

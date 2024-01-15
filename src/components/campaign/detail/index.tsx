@@ -1,10 +1,11 @@
 "use client";
 
-import { API_URL, createCampaignStory, getCampaignById } from "@/api";
+import { getCampaignStatusTag } from "../list";
+import { API_URL, createCampaignStory, getCampaignById, getCampaignStory } from "@/api";
 import ImageUpload from "@/components/common/ImageUpload";
 import { getUserBasic } from "@/libs/common";
 import { Campaign, UserBasic } from "@/libs/types";
-import { Button, DatePicker, Empty, Form, Image, Input, Tabs, TabsProps } from "antd";
+import { Button, DatePicker, Empty, Form, Image, Input, Tabs, TabsProps, Tag } from "antd";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -39,6 +40,7 @@ function CampaignDetail({ id }: { id: string }) {
   const [loading, setLoading] = useState(false);
   const [userBasic, setUserBasic] = useState<UserBasic>();
   const [form] = Form.useForm();
+  const [storyList, setStoryList] = useState([]);
 
   const dateFormat = "YYYY-MM-DD";
 
@@ -84,18 +86,28 @@ function CampaignDetail({ id }: { id: string }) {
     );
   };
 
+  const getStories = () => {
+    getCampaignStory({
+      campaign_id: id,
+      limit: 1000,
+      skip: 0,
+    }).then((res) => {
+      setStoryList(res);
+    });
+  };
+
   const onFinish = (values: any) => {
     console.log("values");
     console.log(values);
-    // if (userBasic) {
-    //   createCampaignStory({
-    //     campaign_id: id,
-    //     inf_id: userBasic.inf_id,
-    //     original_link: values.original_link,
-    //     story_path: values.story_path,
-    //     thumb_path: values.thumb_path,
-    //   });
-    // }
+    if (userBasic) {
+      createCampaignStory({
+        campaign_id: id,
+        inf_id: userBasic.inf_id,
+        ...values,
+      }).then((res) => {
+        getStories();
+      });
+    }
   };
 
   const items: TabsProps["items"] = [
@@ -133,28 +145,19 @@ function CampaignDetail({ id }: { id: string }) {
             Submit story
             <div className="">
               <span className="text-gray-700">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an
-                unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s
               </span>
             </div>
             <Form layout="vertical" requiredMark="optional" onFinish={onFinish} form={form}>
               <Form.Item name="original_link" label="Story link" rules={[{ required: true, message: "Please input your name" }]}>
-                <Input placeholder="Input story link" />
+                <Input placeholder="https://www.instagram.com/stories/intelliums/3280838621061878587?utm_source=ig_story_item_share&igsh=MTlnZmR6aTNpMGMyNQ==" />
               </Form.Item>
               <div className="grid grid-cols-2">
-                <Form.Item label="Story screen shot" name="thumb_path" rules={[{ required: false }]}>
-                  <ImageUpload
-                    defaultImages={[]}
-                    uploadUrl={`${API_URL}/upload`}
-                    onUploadSuccess={(url) => {
-                      console.log("url");
-                      console.log(url);
-                      form.setFieldValue("thumb_path", url);
-                    }}
-                  />
+                <Form.Item label="Story screen shot" name="thumb_path" rules={[{ required: true }]}>
+                  <ImageUpload maxCount={1} multiple={false} defaultImages={[]} uploadUrl={`${API_URL}/upload`} onUploadSuccess={(url) => form.setFieldValue("thumb_path", url)} />
                 </Form.Item>
                 <Form.Item label="Story video" name="story_path" rules={[{ required: false }]}>
-                  <ImageUpload defaultImages={[]} uploadUrl={`${API_URL}/video_upload`} onUploadSuccess={(url) => form.setFieldValue("story_path", url)} />
+                  <ImageUpload maxCount={1} defaultImages={[]} uploadUrl={`${API_URL}/video_upload`} onUploadSuccess={(url) => form.setFieldValue("story_path", url)} />
                 </Form.Item>
               </div>
               <div>
@@ -166,8 +169,17 @@ function CampaignDetail({ id }: { id: string }) {
           </div>
           <div>
             Submitted story
-            <div></div>
-            <Empty />
+            <div>
+              {storyList.length > 0 ? (
+                <div>
+                  {storyList.map((story, index) => (
+                    <div key={index}>AAA</div>
+                  ))}
+                </div>
+              ) : (
+                <Empty />
+              )}
+            </div>
           </div>
         </div>
       ),
@@ -181,16 +193,15 @@ function CampaignDetail({ id }: { id: string }) {
         setLoading(false);
         setData(res);
       });
+      getStories();
     }
   }, [id]);
 
   return (
     <div>
-      <div className="flex gap-2 justify-between">
+      <div className="flex gap-2">
         <h2>Campaign detail</h2>
-        <div>
-          <Button type="primary">Add story</Button>
-        </div>
+        {getCampaignStatusTag(data?.status as number)}
       </div>
       <Tabs items={items} />
     </div>

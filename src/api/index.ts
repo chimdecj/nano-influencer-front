@@ -317,7 +317,7 @@ export const getUserById = async ({ id }: { id: string | number }) => {
 };
 
 export const getCompanyById = async ({ id }: { id: string | number }) => {
-  const res = await fetch(API_URL + `/user?id=${id}`, {
+  const res = await fetch(API_URL + `/organization?org_id=${id}`, {
     method: "GET",
     headers: {
       "Content-type": "application/json",
@@ -352,7 +352,7 @@ export const createCampaignStory = async ({
   story_path: string;
 }) => {
   const res = await fetch(API_URL + `/story/create`, {
-    method: "GET",
+    method: "POST",
     headers: {
       "Content-type": "application/json",
       Authorization: `Bearer ${getCookie("token")}`,

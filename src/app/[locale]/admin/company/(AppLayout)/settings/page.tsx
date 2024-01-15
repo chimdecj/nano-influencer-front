@@ -1,8 +1,8 @@
 "use client";
 
-import { getUserById, updateCompanyInfo } from "@/api";
+import { getCompanyById, updateCompanyInfo } from "@/api";
 import { getUserBasic } from "@/libs/common";
-import { UserBasic } from "@/libs/types";
+import { Company, UserBasic } from "@/libs/types";
 import { Button, Col, Form, Input, Row, notification } from "antd";
 import React, { useEffect, useState } from "react";
 
@@ -10,14 +10,18 @@ function CompanySetting() {
   const companyId = 1;
   const [loading, setLoading] = useState(false);
   const [userBasic, setUserBasic] = useState<UserBasic>();
+  const [form] = Form.useForm();
 
   const getData = () => {
-    // getCompanyById({
-    //   id: userBasic?.org_id as number,
-    // }).then((res) => {
-    //   console.log("res");
-    //   console.log(res);
-    // });
+    if (userBasic) {
+      getCompanyById({
+        id: userBasic?.org_id as number,
+      }).then((res) => {
+        form.setFieldsValue({
+          ...res,
+        });
+      });
+    }
   };
 
   const onFinish = (values: {
@@ -55,7 +59,7 @@ function CompanySetting() {
 
   return (
     <div>
-      <Form layout="vertical" requiredMark="optional" onFinish={onFinish}>
+      <Form form={form} layout="vertical" requiredMark="optional" onFinish={onFinish}>
         <Row gutter={[20, 20]}>
           <Col span={12}>
             <Form.Item name="name" label="Name" rules={[{ required: true, message: "Please input your name" }]}>
@@ -94,9 +98,9 @@ function CompanySetting() {
           </Col>
         </Row>
         <div className="flex items-center justify-end gap-4">
-          <Button shape="round" htmlType="reset">
+          {/* <Button shape="round" htmlType="reset">
             Reset
-          </Button>
+          </Button> */}
           <Button shape="round" type="primary" htmlType="submit" loading={loading}>
             Save
           </Button>

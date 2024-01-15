@@ -4,6 +4,7 @@ import { influencerCampaigns } from "@/api";
 import { getUserBasic } from "@/libs/common";
 import { Campaign, UserBasic } from "@/libs/types";
 import { Button, Table, Tag, notification } from "antd";
+import moment from "moment";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
@@ -59,6 +60,9 @@ function InfluencerAssignedCampaignList() {
       title: "Created date",
       dataIndex: "created_date",
       key: "created_date",
+      sorter: (a: any, b: any) => {
+        return moment(a.created_date).unix() - moment(b.created_date).unix();
+      },
     },
     {
       title: "Status",

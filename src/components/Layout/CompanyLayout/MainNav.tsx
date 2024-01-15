@@ -1,7 +1,9 @@
 "use client";
 
+import { getUserBasic } from "@/libs/common";
+import { UserBasic } from "@/libs/types";
 import Link from "next/link";
-import * as React from "react";
+import { useEffect, useState } from "react";
 
 export interface NavItem {
   title: React.ReactNode;
@@ -9,6 +11,13 @@ export interface NavItem {
 }
 
 export function MainNav() {
+  const [data, setData] = useState<UserBasic>();
+
+  useEffect(() => {
+    const userBasic = getUserBasic();
+    setData(userBasic);
+  }, []);
+
   return (
     <div className="flex gap-6 md:gap-10">
       <Link href="/admin/company/dashboard">

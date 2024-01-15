@@ -127,9 +127,9 @@ function UserSetting() {
         </Row>
 
         <div className="flex items-center justify-end gap-4">
-          <Button shape="round" htmlType="reset">
+          {/* <Button shape="round" htmlType="reset">
             Reset
-          </Button>
+          </Button> */}
           <Button shape="round" type="primary" htmlType="submit" loading={loading}>
             Save
           </Button>

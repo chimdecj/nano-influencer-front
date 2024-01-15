@@ -15,11 +15,15 @@ const getBase64 = (file: RcFile): Promise<string> =>
 
 function ImageUpload({
   uploadUrl = `${API_URL}/upload`,
+  multiple,
+  maxCount = 5,
   defaultImages,
   onUploadSuccess,
   onUploadError,
   onChangeFileList,
 }: {
+  multiple?: boolean;
+  maxCount?: number;
   uploadUrl?: string;
   defaultImages?: UploadFile[];
   onUploadSuccess?: (url: string) => void;
@@ -31,8 +35,8 @@ function ImageUpload({
   const [previewTitle, setPreviewTitle] = useState("");
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
-  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
-    if (onUploadSuccess && newFileList[0]) {
+  const handleChange: UploadProps["onChange"] = ({ event, file, fileList: newFileList }) => {
+    if (onUploadSuccess && newFileList[0]?.response) {
       onUploadSuccess(newFileList[0].response.file_url);
     }
     setFileList(newFileList);
@@ -70,6 +74,8 @@ function ImageUpload({
   return (
     <div>
       <Upload
+        maxCount={maxCount}
+        multiple={multiple}
         action={uploadUrl}
         headers={{
           Authorization: `Bearer ${getCookie("token")}`,
@@ -79,7 +85,7 @@ function ImageUpload({
         onPreview={handlePreview}
         onChange={handleChange}
       >
-        {fileList.length >= 8 ? null : uploadButton}
+        {fileList.length >= maxCount ? null : uploadButton}
       </Upload>
       <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
         <Image alt="example" style={{ width: "100%" }} src={previewImage} preview={false} />

@@ -3,7 +3,7 @@
 import { getInfluencerList } from "@/api";
 import Icons from "@/components/common/Icons";
 import { User } from "@/libs/types";
-import { Avatar, Button, Spin, notification } from "antd";
+import { Image, Avatar, Button, Spin, notification } from "antd";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -58,18 +58,17 @@ const AdminHomePage = () => {
 
   return (
     <div className="space-y-4">
-      <div>
-        <h2 className="text-2xl font-medium">Active campaigns</h2>
-        <div className="grid grid-cols-3 gap-6">
-          {items.map((item, index) => (
-            <div className="grid gap-6 rounded-2xl bg-slate-200 p-6 dark:bg-gray-900" key={index}>
-              <span className="text-xl">{item.title}</span>
-              <span className="text-4xl font-medium text-primary-600">{item.content}</span>
-            </div>
-          ))}
+      <div className="grid grid-cols-3 gap-4">
+        <div className="col-span-2 space-y-3">
+          <Image src="/big-logo.svg" alt="logo" preview={false} />
+          <h2 className="text-5xl font-medium text-gradient-to-r from-indigo-500">Take control of your performance marketing</h2>
+          <p className="text-2xl">Manage and track your influencer affiliate marketing programs with ease</p>
+        </div>
+        <div className="col-span-1">
+          <Image src="/circle.png" alt="logo" preview={false} />
         </div>
       </div>
-      <div>
+      {/* <div>
         <h2 className="text-2xl font-medium">Influencers</h2>
         {loading && (
           <div className="text-center">
@@ -92,7 +91,7 @@ const AdminHomePage = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
