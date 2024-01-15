@@ -3,6 +3,7 @@
 import Icons from "@/components/common/Icons";
 import { Dropdown } from "antd";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import * as React from "react";
 
 export interface NavItem {
@@ -22,7 +23,7 @@ const InfluencerNavItems: NavItem[] = [
   {
     key: "active-campaigns",
     label: "Active campaigns",
-    href: "/admin/influencer/campaign/list?status=2",
+    href: "/admin/influencer/campaign/list/active?status=2",
     icon: <Icons.SquareStack size={18} />,
   },
   // {
@@ -46,13 +47,19 @@ const InfluencerNavItems: NavItem[] = [
 ];
 
 export function SideNav() {
+  const pathname = usePathname();
+
   const NavItems = InfluencerNavItems;
   return (
     <div className="h-fit rounded-3xl bg-slate-200 px-3.5 py-3 dark:bg-gray-900">
       {NavItems?.map(
         (item, index) =>
           item.href && (
-            <Link key={index} href={item.href} className="flex cursor-pointer select-auto items-center gap-4 px-2 py-3 text-sm hover:text-primary-600">
+            <Link
+              key={index}
+              href={item.href}
+              className={`flex cursor-pointer select-auto items-center gap-4 px-2 py-3 text-sm hover:text-primary-600 ${pathname === item.href ? "text-primary-600" : ""}`}
+            >
               {item.icon} {item.label}
             </Link>
           )
