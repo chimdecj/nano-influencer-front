@@ -70,7 +70,7 @@ const UserSection = () => {
   if (type == 1)
     return (
       <div className="flex h-fit items-center gap-4 rounded-3xl bg-slate-200 px-3.5 py-6 dark:bg-gray-900">
-        <Avatar src="https://d2u8k2ocievbld.cloudfront.net/memojis/male/1.png" size={48} />
+        <Avatar src={user?.image_url} size={48} />
         <div className="grid text-sm font-medium">
           <div className="space-x-2">
             <span>Hello, </span>

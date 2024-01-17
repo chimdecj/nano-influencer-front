@@ -234,6 +234,7 @@ export const updateCompanyInfo = async ({
 
 export const updateInfluencerInfo = async ({
   influencer_id,
+  image_url,
   phonenumber,
   email,
   first_name,
@@ -251,6 +252,7 @@ export const updateInfluencerInfo = async ({
   bankaccount,
 }: {
   influencer_id: string | number;
+  image_url: string;
   phonenumber: string;
   email: string;
   first_name: string;
@@ -275,6 +277,7 @@ export const updateInfluencerInfo = async ({
     },
     body: JSON.stringify({
       phonenumber,
+      image_url,
       email,
       first_name,
       last_name,

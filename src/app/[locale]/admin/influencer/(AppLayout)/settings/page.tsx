@@ -1,6 +1,7 @@
 "use client";
 
-import { getInfluencerById, updateInfluencerInfo } from "@/api";
+import { API_URL, getInfluencerById, updateInfluencerInfo } from "@/api";
+import ImageUpload from "@/components/common/ImageUpload";
 import { getUserBasic } from "@/libs/common";
 import { UserBasic } from "@/libs/types";
 import { Button, Col, DatePicker, Form, Input, InputNumber, Row, Select, notification } from "antd";
@@ -25,6 +26,7 @@ function UserSetting() {
   const [userBasic, setUserBasic] = useState<UserBasic>();
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
+  const image_url = Form.useWatch("image_url", form);
 
   useEffect(() => {
     const userBasic = getUserBasic();
@@ -66,6 +68,26 @@ function UserSetting() {
       <Form form={form} labelCol={{ span: 5 }} layout="vertical" requiredMark="optional" onFinish={onFinish}>
         <Row gutter={[20, 20]}>
           <Col span={12}>
+            <Form.Item label="Profile Image" name="image_url" rules={[{ required: true }]}>
+              <ImageUpload
+                maxCount={1}
+                multiple={false}
+                defaultImages={
+                  image_url
+                    ? [
+                        {
+                          uid: "-1",
+                          name: "image.png",
+                          status: "done",
+                          url: image_url,
+                        },
+                      ]
+                    : []
+                }
+                uploadUrl={`${API_URL}/upload`}
+                onUploadSuccess={(url) => form.setFieldValue("image_url", url)}
+              />
+            </Form.Item>
             <Form.Item name="first_name" label="First name" rules={[{ required: true, message: "Please input your name" }]}>
               <Input placeholder="Input your first name" />
             </Form.Item>

@@ -18,6 +18,7 @@ export interface User {
   work_name: string;
   work_position: string;
   user_type: number;
+  image_url: string;
 }
 
 export interface Company {
@@ -80,4 +81,14 @@ export interface CampaignInput {
   wording?: string;
   guidance?: string;
   owner_id?: number;
+}
+
+export interface Story {
+  created_date: string;
+  original_link: string;
+  thumb_path: string;
+  story_path: string;
+  inf_id: number;
+  campaign_id: number;
+  id: number;
 }

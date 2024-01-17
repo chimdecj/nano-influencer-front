@@ -4,8 +4,8 @@ import { getCampaignStatusTag } from "../list";
 import { API_URL, createCampaignStory, getCampaignById, getCampaignStory } from "@/api";
 import ImageUpload from "@/components/common/ImageUpload";
 import { getUserBasic } from "@/libs/common";
-import { Campaign, UserBasic } from "@/libs/types";
-import { Button, DatePicker, Empty, Form, Image, Input, Tabs, TabsProps, Tag } from "antd";
+import { Campaign, Story, UserBasic } from "@/libs/types";
+import { Avatar, Button, DatePicker, Empty, Form, Image, Input, List, Modal, Spin, Tabs, TabsProps, Tag } from "antd";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -13,6 +13,7 @@ import localeData from "dayjs/plugin/localeData";
 import weekOfYear from "dayjs/plugin/weekOfYear";
 import weekYear from "dayjs/plugin/weekYear";
 import weekday from "dayjs/plugin/weekday";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -37,10 +38,13 @@ export const getPlatformName = (type: any) => {
 function CampaignDetail({ id }: { id: string }) {
   const searchParams = useSearchParams();
   const [data, setData] = useState<Campaign>();
+  const [modal, setModal] = useState(false);
+  const [selectedStory, setSelectedStory] = useState<Story>();
   const [loading, setLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
   const [userBasic, setUserBasic] = useState<UserBasic>();
   const [form] = Form.useForm();
-  const [storyList, setStoryList] = useState([]);
+  const [storyList, setStoryList] = useState<Story[]>([]);
 
   const dateFormat = "YYYY-MM-DD";
 
@@ -97,17 +101,21 @@ function CampaignDetail({ id }: { id: string }) {
   };
 
   const onFinish = (values: any) => {
-    console.log("values");
-    console.log(values);
     if (userBasic) {
+      setSubmitLoading(true);
       createCampaignStory({
         campaign_id: id,
         inf_id: userBasic.inf_id,
         ...values,
       }).then((res) => {
+        setSubmitLoading(false);
         getStories();
       });
     }
+  };
+
+  const handleModal = () => {
+    setModal(!modal);
   };
 
   const items: TabsProps["items"] = [
@@ -120,7 +128,7 @@ function CampaignDetail({ id }: { id: string }) {
       key: "3",
       label: "Visuals",
       children: (
-        <div>
+        <div className="space-y-2">
           <h2>
             <b>Wording:</b>
           </h2>
@@ -140,9 +148,9 @@ function CampaignDetail({ id }: { id: string }) {
       key: "4",
       label: "Submit",
       children: (
-        <div className="grid md:grid-cols-2 gap-2">
+        <div className="grid md:grid-cols-2 gap-5">
           <div className="space-y-2">
-            Submit story
+            Submit stories
             <div className="">
               <span className="text-gray-700">
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s
@@ -161,20 +169,51 @@ function CampaignDetail({ id }: { id: string }) {
                 </Form.Item>
               </div>
               <div>
-                <Button shape="round" type="primary" htmlType="submit" loading={loading}>
+                <Button shape="round" type="primary" htmlType="submit" loading={submitLoading}>
                   Submit
                 </Button>
               </div>
             </Form>
           </div>
           <div>
-            Submitted story
+            <h2>Submitted story</h2>
             <div>
-              {storyList.length > 0 ? (
-                <div>
-                  {storyList.map((story, index) => (
-                    <div key={index}>AAA</div>
-                  ))}
+              {loading ? (
+                <div className="text-center">
+                  <Spin />
+                </div>
+              ) : storyList.length > 0 ? (
+                <div className="space-y-4">
+                  <List
+                    itemLayout="horizontal"
+                    dataSource={storyList}
+                    renderItem={(story, index) => (
+                      <List.Item>
+                        <List.Item.Meta
+                          avatar={<Avatar shape="square" src={story.thumb_path} />}
+                          title={
+                            <div
+                              onClick={() => {
+                                setSelectedStory(story);
+                                handleModal();
+                              }}
+                              className="cursor-pointer hover:text-primary-600"
+                            >
+                              Story {index + 1}
+                            </div>
+                          }
+                          description={
+                            <div>
+                              Url:{" "}
+                              <Link target="_blank" href={story.original_link}>
+                                {story.original_link}
+                              </Link>
+                            </div>
+                          }
+                        />
+                      </List.Item>
+                    )}
+                  />
                 </div>
               ) : (
                 <Empty />
@@ -204,6 +243,40 @@ function CampaignDetail({ id }: { id: string }) {
         {getCampaignStatusTag(data?.status as number)}
       </div>
       <Tabs items={items} />
+      <Modal title="Submitted story" width={650} open={modal} onCancel={handleModal}>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            {selectedStory?.original_link && (
+              <div>
+                <div className="font-semibold">Story link:</div>
+                <Link target="_blank" href={selectedStory?.original_link}>
+                  {selectedStory?.original_link}
+                </Link>
+              </div>
+            )}
+
+            <div>
+              <div className="font-semibold">Story video:</div>
+              <Image src={selectedStory?.thumb_path} alt="thumb" className="w-full" />
+              {}
+            </div>
+          </div>
+          <div className="space-y-2">
+            <div>
+              <div className="font-semibold">Created date:</div>
+              {selectedStory?.created_date}
+            </div>
+            {selectedStory?.story_path && (
+              <div>
+                <div className="font-semibold">Story video:</div>
+                <video width="400" controls>
+                  <source src={selectedStory?.story_path} />
+                </video>
+              </div>
+            )}
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }
