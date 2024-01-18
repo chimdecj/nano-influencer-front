@@ -1,6 +1,6 @@
 "use client";
 
-import { API_URL, getInfluencerById, updateInfluencerInfo } from "@/api";
+import { API_URL, createSocialAccounts, getInfluencerById, getInfluencerSocialAccounts, updateInfluencerInfo } from "@/api";
 import ImageUpload from "@/components/common/ImageUpload";
 import { getUserBasic } from "@/libs/common";
 import { UserBasic } from "@/libs/types";
@@ -25,7 +25,9 @@ dayjs.extend(weekYear);
 function UserSetting() {
   const [userBasic, setUserBasic] = useState<UserBasic>();
   const [loading, setLoading] = useState(false);
+  const [loadingSocial, setLoadingSocial] = useState(false);
   const [form] = Form.useForm();
+  const [form2] = Form.useForm();
   const image_url = Form.useWatch("image_url", form);
 
   useEffect(() => {
@@ -42,6 +44,13 @@ function UserSetting() {
         form.setFieldsValue({
           ...data,
           dateofbirth: date,
+        });
+      });
+      getInfluencerSocialAccounts({
+        inf_id: userBasic.inf_id,
+      }).then((data) => {
+        form2.setFieldsValue({
+          ...data,
         });
       });
     }
@@ -63,11 +72,33 @@ function UserSetting() {
     }
   };
 
+  const handleFinishSocial = (values: any) => {
+    if (userBasic) {
+      setLoadingSocial(true);
+      createSocialAccounts({
+        ...values,
+        inf_id: userBasic.inf_id,
+        last_updated: moment(new Date()).format("YYYY-MM-DDTh:mm:ssZ"),
+      }).then((data) => {
+        setLoadingSocial(false);
+        if (data?.detail) {
+          notification.error({
+            message: data?.detail,
+          });
+        } else {
+          notification.success({
+            message: "Successfully saved",
+          });
+        }
+      });
+    }
+  };
+
   return (
     <div>
       <Form form={form} labelCol={{ span: 5 }} layout="vertical" requiredMark="optional" onFinish={onFinish}>
-        <Row gutter={[20, 20]}>
-          <Col span={12}>
+        <Row gutter={[20, 5]}>
+          <Col span={24}>
             <Form.Item label="Profile Image" name="image_url" rules={[{ required: true }]}>
               <ImageUpload
                 maxCount={1}
@@ -88,6 +119,8 @@ function UserSetting() {
                 onUploadSuccess={(url) => form.setFieldValue("image_url", url)}
               />
             </Form.Item>
+          </Col>
+          <Col span={12}>
             <Form.Item name="first_name" label="First name" rules={[{ required: true, message: "Please input your name" }]}>
               <Input placeholder="Input your first name" />
             </Form.Item>
@@ -147,16 +180,51 @@ function UserSetting() {
             </Form.Item>
           </Col>
         </Row>
-
         <div className="flex items-center justify-end gap-4">
-          {/* <Button shape="round" htmlType="reset">
-            Reset
-          </Button> */}
           <Button shape="round" type="primary" htmlType="submit" loading={loading}>
             Save
           </Button>
         </div>
       </Form>
+      <div>
+        <Form form={form2} layout="vertical" requiredMark="optional" onFinish={handleFinishSocial}>
+          <Col span={12}>
+            <h2 className="font-semibold">Social accounts: </h2>
+            <div className="p-10 rounded-xl bg-slate-100 dark:bg-gray-900">
+              <Form.Item name="account_type" label="Platform" rules={[{ required: true, message: "Please select platform" }]}>
+                <Select
+                  placeholder="Select platform"
+                  options={[
+                    { value: 0, label: "Instagram" },
+                    { value: 1, label: "Facebook", disabled: true },
+                    { value: 2, label: "Tiktok", disabled: true },
+                  ]}
+                />
+              </Form.Item>
+              <Form.Item name="account_profile" label="Username" rules={[{ required: true, message: "Please input username" }]}>
+                <Input placeholder="Username" />
+              </Form.Item>
+              <Form.Item name="total_followers" label="Total followers" rules={[{ required: true, message: "Please input follower count" }]}>
+                <InputNumber placeholder="Followers count" className="w-full" />
+              </Form.Item>
+              <Form.Item name="account_image" label="Image" rules={[{ required: true, message: "Please input image" }]}>
+                <ImageUpload
+                  defaultImages={[]}
+                  maxCount={1}
+                  multiple={false}
+                  uploadUrl={`${API_URL}/upload`}
+                  onUploadSuccess={(url) => form2.setFieldValue("account_image", url)}
+                />
+              </Form.Item>
+              <div className="flex justify-end">
+                <Button type="primary" shape="default" htmlType="submit" loading={loadingSocial}>
+                  Save
+                </Button>
+              </div>
+            </div>
+          </Col>
+        </Form>
+      </div>
     </div>
   );
 }

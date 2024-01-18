@@ -44,8 +44,6 @@ function CampaignDetail() {
       getCampaignById({
         campaign_id: id,
       }).then((res) => {
-        console.log("res");
-        console.log(res);
         setData(res);
       });
     }

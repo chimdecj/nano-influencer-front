@@ -65,8 +65,6 @@ export const getActiveCampaignList = async ({ org_id, limit, skip }: { org_id: n
 };
 
 export const getCampaignListByStatus = async ({ status, org_id, limit, skip }: { status: string; org_id: number; limit: number; skip: number }) => {
-  console.log("aorg_id");
-  console.log(org_id);
   const res = await fetch(API_URL + `/campaigns/status?status=${status}&org_id=${org_id}&limit=${limit}&skip=${skip}`, {
     method: "GET",
     headers: {
@@ -367,6 +365,49 @@ export const createCampaignStory = async ({
       thumb_path,
       story_path,
     }),
+  });
+  return res.json();
+};
+
+export const createSocialAccounts = async ({
+  inf_id,
+  account_type,
+  total_followers,
+  account_profile,
+  account_image,
+  last_updated,
+}: {
+  inf_id: number;
+  account_type: number;
+  total_followers: number;
+  account_profile: string;
+  account_image: string;
+  last_updated: string;
+}) => {
+  const res = await fetch(API_URL + `/social_accounts?inf_id=${inf_id}`, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${getCookie("token")}`,
+    },
+    body: JSON.stringify({
+      account_type,
+      total_followers,
+      account_profile,
+      account_image,
+      last_updated,
+    }),
+  });
+  return res.json();
+};
+
+export const getInfluencerSocialAccounts = async ({ inf_id }: { inf_id: number }) => {
+  const res = await fetch(API_URL + `/social_accounts?inf_id=${inf_id}`, {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${getCookie("token")}`,
+    },
   });
   return res.json();
 };

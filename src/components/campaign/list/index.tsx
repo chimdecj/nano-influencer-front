@@ -97,7 +97,6 @@ function CampaignList() {
         return moment(date).format("YYYY-MM-DD");
       },
       sorter: (a: any, b: any) => {
-        console.log(a);
         return moment(a.created_date).unix() - moment(b.created_date).unix();
       },
     },
