@@ -16,11 +16,12 @@ const UserSection = () => {
     getMeData().then((res: UserBasic) => {
       setData(res);
       setUserBasic(res);
-      if (res.inf_id) {
-        setType(1);
-      } else if (res.org_id) {
-        setType(0);
-      }
+      setType(res.user_type);
+      // if (res.inf_id) {
+      //   setType(1);
+      // } else if (res.org_id) {
+      //   setType(0);
+      // }
     });
   };
 
