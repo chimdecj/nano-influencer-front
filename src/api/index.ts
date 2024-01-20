@@ -206,6 +206,7 @@ export const updateCompanyInfo = async ({
   offce_address,
   phonenumber,
   email,
+  image_url,
 }: {
   org_id: string | number;
   name: string;
@@ -218,6 +219,7 @@ export const updateCompanyInfo = async ({
   offce_address: string;
   phonenumber: string;
   email: string;
+  image_url: string;
 }) => {
   const res = await fetch(API_URL + `/organization?org_id=${org_id}`, {
     method: "PATCH",
@@ -225,7 +227,7 @@ export const updateCompanyInfo = async ({
       "Content-type": "application/json",
       Authorization: `Bearer ${getCookie("token")}`,
     },
-    body: JSON.stringify({ name, industry, sub_industry, instagram_profile, facebook_profile, tiktok_profile, preffered_category, offce_address, phonenumber, email }),
+    body: JSON.stringify({ name, industry, sub_industry, instagram_profile, facebook_profile, tiktok_profile, preffered_category, offce_address, phonenumber, email, image_url }),
   });
   return res.json();
 };

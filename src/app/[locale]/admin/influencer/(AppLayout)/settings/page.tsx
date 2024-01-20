@@ -29,6 +29,7 @@ function UserSetting() {
   const [form] = Form.useForm();
   const [form2] = Form.useForm();
   const image_url = Form.useWatch("image_url", form);
+  const form2image_url = Form.useWatch("account_image", form);
 
   useEffect(() => {
     const userBasic = getUserBasic();
@@ -49,9 +50,11 @@ function UserSetting() {
       getInfluencerSocialAccounts({
         inf_id: userBasic.inf_id,
       }).then((data) => {
-        form2.setFieldsValue({
-          ...data,
-        });
+        if (data?.length > 0) {
+          form2.setFieldsValue({
+            ...data[0],
+          });
+        }
       });
     }
   }, [form, userBasic]);
@@ -209,7 +212,18 @@ function UserSetting() {
               </Form.Item>
               <Form.Item name="account_image" label="Image" rules={[{ required: true, message: "Please input image" }]}>
                 <ImageUpload
-                  defaultImages={[]}
+                  defaultImages={
+                    form2image_url
+                      ? [
+                          {
+                            uid: "-1",
+                            name: "image.png",
+                            status: "done",
+                            url: form2image_url,
+                          },
+                        ]
+                      : []
+                  }
                   maxCount={1}
                   multiple={false}
                   uploadUrl={`${API_URL}/upload`}

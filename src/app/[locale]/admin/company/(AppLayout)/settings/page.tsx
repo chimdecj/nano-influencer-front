@@ -1,6 +1,7 @@
 "use client";
 
-import { getCompanyById, updateCompanyInfo } from "@/api";
+import { API_URL, getCompanyById, updateCompanyInfo } from "@/api";
+import ImageUpload from "@/components/common/ImageUpload";
 import { getUserBasic } from "@/libs/common";
 import { Company, UserBasic } from "@/libs/types";
 import { Button, Col, Form, Input, Row, notification } from "antd";
@@ -11,6 +12,7 @@ function CompanySetting() {
   const [loading, setLoading] = useState(false);
   const [userBasic, setUserBasic] = useState<UserBasic>();
   const [form] = Form.useForm();
+  const image_url = Form.useWatch("image_url", form);
 
   const getData = () => {
     if (userBasic) {
@@ -36,6 +38,7 @@ function CompanySetting() {
     offce_address: string;
     phonenumber: string;
     email: string;
+    image_url: string;
   }) => {
     setLoading(true);
     updateCompanyInfo({
@@ -61,6 +64,28 @@ function CompanySetting() {
     <div>
       <Form form={form} layout="vertical" requiredMark="optional" onFinish={onFinish}>
         <Row gutter={[20, 20]}>
+          <Col span={24}>
+            <Form.Item label="Profile Image" name="image_url" rules={[{ required: true }]}>
+              <ImageUpload
+                maxCount={1}
+                multiple={false}
+                defaultImages={
+                  image_url
+                    ? [
+                        {
+                          uid: "-1",
+                          name: "image.png",
+                          status: "done",
+                          url: image_url,
+                        },
+                      ]
+                    : []
+                }
+                uploadUrl={`${API_URL}/upload`}
+                onUploadSuccess={(url) => form.setFieldValue("image_url", url)}
+              />
+            </Form.Item>
+          </Col>
           <Col span={12}>
             <Form.Item name="name" label="Name" rules={[{ required: true, message: "Please input your name" }]}>
               <Input placeholder="Input your name" />
@@ -98,9 +123,6 @@ function CompanySetting() {
           </Col>
         </Row>
         <div className="flex items-center justify-end gap-4">
-          {/* <Button shape="round" htmlType="reset">
-            Reset
-          </Button> */}
           <Button shape="round" type="primary" htmlType="submit" loading={loading}>
             Save
           </Button>

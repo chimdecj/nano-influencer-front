@@ -23,7 +23,7 @@ const CompanyNavItems: NavItem[] = [
   {
     key: "active-campaigns",
     label: "Active campaigns",
-    href: "/admin/company/campaign/list/active?status=2",
+    href: "/admin/company/campaign/active?status=2",
     icon: <Icons.SquareStack size={18} />,
   },
   {

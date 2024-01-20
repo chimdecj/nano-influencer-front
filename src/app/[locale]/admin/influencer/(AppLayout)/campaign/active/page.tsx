@@ -2,7 +2,7 @@
 
 import InfluencerAssignedCampaignList from "@/components/campaign/assigned-campaigns";
 
-const InfluencerActiveCampaignsPage = () => {
+const InfluencerCampaignsPage = () => {
   return (
     <div className="space-y-4">
       <InfluencerAssignedCampaignList />
@@ -10,4 +10,4 @@ const InfluencerActiveCampaignsPage = () => {
   );
 };
 
-export default InfluencerActiveCampaignsPage;
+export default InfluencerCampaignsPage;

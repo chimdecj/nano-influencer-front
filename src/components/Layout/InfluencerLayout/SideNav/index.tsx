@@ -23,7 +23,7 @@ const InfluencerNavItems: NavItem[] = [
   {
     key: "active-campaigns",
     label: "Active campaigns",
-    href: "/admin/influencer/campaign/list/active?status=2",
+    href: "/admin/influencer/campaign/active?status=2",
     icon: <Icons.SquareStack size={18} />,
   },
   // {
@@ -58,7 +58,9 @@ export function SideNav() {
             <Link
               key={index}
               href={item.href}
-              className={`flex cursor-pointer select-auto items-center gap-4 px-2 py-3 text-sm hover:text-primary-600 ${pathname === item.href ? "text-primary-600" : ""}`}
+              className={`flex cursor-pointer select-auto items-center gap-4 px-2 py-3 text-sm hover:text-primary-600 ${
+                (item.href.includes("?") ? item.href.startsWith(pathname) : pathname === item.href) ? "text-primary-600" : ""
+              }`}
             >
               {item.icon} {item.label}
             </Link>

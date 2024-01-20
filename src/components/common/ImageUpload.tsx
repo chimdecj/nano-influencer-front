@@ -1,6 +1,7 @@
 import Icons from "./Icons";
 import { API_URL } from "@/api";
 import { Modal, Image, Upload, UploadFile, UploadProps } from "antd";
+import ImgCrop from "antd-img-crop";
 import { RcFile } from "antd/lib/upload";
 import { getCookie } from "cookies-next";
 import React, { useEffect, useState } from "react";
@@ -21,6 +22,7 @@ function ImageUpload({
   onUploadSuccess,
   onUploadError,
   onChangeFileList,
+  aspect,
 }: {
   multiple?: boolean;
   maxCount?: number;
@@ -29,6 +31,7 @@ function ImageUpload({
   onUploadSuccess?: (url: string) => void;
   onUploadError?: () => void;
   onChangeFileList?: (fileList: UploadFile[]) => void;
+  aspect?: number;
 }) {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
@@ -71,8 +74,33 @@ function ImageUpload({
   //   onChangeFileList && onChangeFileList(fileList);
   // }, [fileList, onChangeFileList]);
 
+  if (aspect) {
+    return (
+      <>
+        <ImgCrop rotationSlider aspect={aspect}>
+          <Upload
+            maxCount={maxCount}
+            multiple={multiple}
+            action={uploadUrl}
+            headers={{
+              Authorization: `Bearer ${getCookie("token")}`,
+            }}
+            listType="picture-card"
+            fileList={fileList}
+            onPreview={handlePreview}
+            onChange={handleChange}
+          >
+            {fileList.length >= maxCount ? null : uploadButton}
+          </Upload>
+        </ImgCrop>
+        <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+          <Image alt="example" style={{ width: "100%" }} src={previewImage} preview={false} />
+        </Modal>
+      </>
+    );
+  }
   return (
-    <div>
+    <>
       <Upload
         maxCount={maxCount}
         multiple={multiple}
@@ -90,7 +118,7 @@ function ImageUpload({
       <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
         <Image alt="example" style={{ width: "100%" }} src={previewImage} preview={false} />
       </Modal>
-    </div>
+    </>
   );
 }
 

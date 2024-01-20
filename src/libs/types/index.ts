@@ -33,6 +33,7 @@ export interface Company {
   phonenumber: number;
   email: string;
   id: number;
+  image_url: string;
 }
 
 export interface UserBasic {

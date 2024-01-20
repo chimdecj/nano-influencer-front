@@ -2,6 +2,7 @@
 
 import { getCampaignStatusTag } from "../list";
 import { API_URL, createCampaignStory, getCampaignById, getCampaignStory } from "@/api";
+import Icons from "@/components/common/Icons";
 import ImageUpload from "@/components/common/ImageUpload";
 import { getUserBasic } from "@/libs/common";
 import { Campaign, Story, UserBasic } from "@/libs/types";
@@ -146,11 +147,12 @@ function CampaignDetail({ id }: { id: string }) {
     },
     {
       key: "4",
-      label: "Submit",
+      label: "Submit story",
+      // disabled: data?.status !== 2,
       children: (
         <div className="grid md:grid-cols-2 gap-5">
           <div className="space-y-2">
-            Submit stories
+            Submit story
             <div className="">
               <span className="text-gray-700">
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s
@@ -162,7 +164,14 @@ function CampaignDetail({ id }: { id: string }) {
               </Form.Item>
               <div className="grid grid-cols-2">
                 <Form.Item label="Story screen shot" name="thumb_path" rules={[{ required: true }]}>
-                  <ImageUpload maxCount={1} multiple={false} defaultImages={[]} uploadUrl={`${API_URL}/upload`} onUploadSuccess={(url) => form.setFieldValue("thumb_path", url)} />
+                  <ImageUpload
+                    aspect={1 / 2}
+                    maxCount={1}
+                    multiple={false}
+                    defaultImages={[]}
+                    uploadUrl={`${API_URL}/upload`}
+                    onUploadSuccess={(url) => form.setFieldValue("thumb_path", url)}
+                  />
                 </Form.Item>
                 <Form.Item label="Story video" name="story_path" rules={[{ required: false }]}>
                   <ImageUpload maxCount={1} defaultImages={[]} uploadUrl={`${API_URL}/video_upload`} onUploadSuccess={(url) => form.setFieldValue("story_path", url)} />
@@ -249,23 +258,26 @@ function CampaignDetail({ id }: { id: string }) {
             {selectedStory?.original_link && (
               <div>
                 <div className="font-semibold">Story link:</div>
-                <Link target="_blank" href={selectedStory?.original_link}>
+                <Link target="_blank" href={selectedStory?.original_link} className="flex gap-2 line-clamp-1">
+                  <span className="flex items-center">
+                    <Icons.Link size={12} />
+                  </span>
                   {selectedStory?.original_link}
                 </Link>
               </div>
             )}
 
             <div>
-              <div className="font-semibold">Story video:</div>
+              <div className="font-semibold">Story image:</div>
               <Image src={selectedStory?.thumb_path} alt="thumb" className="w-full" />
               {}
             </div>
           </div>
           <div className="space-y-2">
-            <div>
+            {/* <div>
               <div className="font-semibold">Created date:</div>
               {selectedStory?.created_date}
-            </div>
+            </div> */}
             {selectedStory?.story_path && (
               <div>
                 <div className="font-semibold">Story video:</div>

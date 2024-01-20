@@ -53,9 +53,7 @@ const UserSection = () => {
   if (type == 0) {
     return (
       <div className="flex h-fit items-center gap-4 rounded-3xl bg-slate-200 px-3.5 py-6 dark:bg-gray-900">
-        <Avatar size={48} shape="square">
-          {/* <Icons.Image /> */}
-        </Avatar>
+        <Avatar size={48} shape="square" src={company?.image_url} />
         <div className="grid text-sm font-medium">
           <div className="space-x-2">
             <span>Welcome</span>
