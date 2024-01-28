@@ -403,6 +403,38 @@ export const createSocialAccounts = async ({
   return res.json();
 };
 
+export const updateSocialAccount = async ({
+  account_id,
+  account_type,
+  total_followers,
+  account_profile,
+  account_image,
+  last_updated,
+}: {
+  account_id: number;
+  account_type: number;
+  total_followers: number;
+  account_profile: string;
+  account_image: string;
+  last_updated: string;
+}) => {
+  const res = await fetch(API_URL + `/social_accounts?account_id=${account_id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${getCookie("token")}`,
+    },
+    body: JSON.stringify({
+      account_type,
+      total_followers,
+      account_profile,
+      account_image,
+      last_updated,
+    }),
+  });
+  return res.json();
+};
+
 export const getInfluencerSocialAccounts = async ({ inf_id }: { inf_id: number }) => {
   const res = await fetch(API_URL + `/social_accounts?inf_id=${inf_id}`, {
     method: "GET",

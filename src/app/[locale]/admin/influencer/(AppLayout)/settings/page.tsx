@@ -1,6 +1,6 @@
 "use client";
 
-import { API_URL, createSocialAccounts, getInfluencerById, getInfluencerSocialAccounts, updateInfluencerInfo } from "@/api";
+import { API_URL, createSocialAccounts, getInfluencerById, getInfluencerSocialAccounts, updateInfluencerInfo, updateSocialAccount } from "@/api";
 import ImageUpload from "@/components/common/ImageUpload";
 import { getUserBasic } from "@/libs/common";
 import { UserBasic } from "@/libs/types";
@@ -29,7 +29,8 @@ function UserSetting() {
   const [form] = Form.useForm();
   const [form2] = Form.useForm();
   const image_url = Form.useWatch("image_url", form);
-  const form2image_url = Form.useWatch("account_image", form);
+  const form2image_url = Form.useWatch("account_image", form2);
+  const [socialPlatformsId, setSocialPlatformsId] = useState([]);
 
   useEffect(() => {
     const userBasic = getUserBasic();
@@ -54,6 +55,7 @@ function UserSetting() {
           form2.setFieldsValue({
             ...data[0],
           });
+          setSocialPlatformsId(data.map((i: any) => i.id) || []);
         }
       });
     }
@@ -78,22 +80,40 @@ function UserSetting() {
   const handleFinishSocial = (values: any) => {
     if (userBasic) {
       setLoadingSocial(true);
-      createSocialAccounts({
-        ...values,
-        inf_id: userBasic.inf_id,
-        last_updated: moment(new Date()).format("YYYY-MM-DDTh:mm:ssZ"),
-      }).then((data) => {
-        setLoadingSocial(false);
-        if (data?.detail) {
-          notification.error({
-            message: data?.detail,
-          });
-        } else {
-          notification.success({
-            message: "Successfully saved",
-          });
-        }
-      });
+      if (socialPlatformsId.length) {
+        updateSocialAccount({
+          account_id: socialPlatformsId[0],
+          ...values,
+        }).then((data) => {
+          setLoadingSocial(false);
+          if (data?.detail) {
+            notification.error({
+              message: data?.detail,
+            });
+          } else {
+            notification.success({
+              message: "Successfully updated",
+            });
+          }
+        });
+      } else {
+        createSocialAccounts({
+          ...values,
+          inf_id: userBasic.inf_id,
+          last_updated: moment(new Date()).format("YYYY-MM-DDTh:mm:ssZ"),
+        }).then((data) => {
+          setLoadingSocial(false);
+          if (data?.detail) {
+            notification.error({
+              message: data?.detail,
+            });
+          } else {
+            notification.success({
+              message: "Successfully saved",
+            });
+          }
+        });
+      }
     }
   };
 
