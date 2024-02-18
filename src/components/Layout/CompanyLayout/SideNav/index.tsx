@@ -1,10 +1,12 @@
 "use client";
 
 import Icons from "@/components/common/Icons";
-import { Dropdown } from "antd";
+import { Dropdown, Grid } from "antd";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import * as React from "react";
+
+const { useBreakpoint } = Grid;
 
 export interface NavItem {
   key: string;
@@ -13,7 +15,7 @@ export interface NavItem {
   icon: React.ReactNode;
 }
 
-const CompanyNavItems: NavItem[] = [
+export const CompanyNavItems: NavItem[] = [
   {
     key: "campaigns",
     href: "/admin/company/campaign/list",
@@ -47,37 +49,30 @@ const CompanyNavItems: NavItem[] = [
 ];
 
 export function SideNav() {
+  const screens = useBreakpoint();
   const pathname = usePathname();
 
   const NavItems = CompanyNavItems;
+
+  if (screens.xs) return null;
+
   return (
-    <div className="h-fit rounded-3xl bg-slate-200 px-3.5 py-3 dark:bg-gray-900">
-      {NavItems?.map(
-        (item, index) =>
-          item.href && (
-            <Link
-              key={index}
-              href={item.href}
-              className={`flex cursor-pointer select-auto items-center gap-4 px-2 py-3 text-sm hover:text-primary-600 ${
-                (item.href.includes("?") ? item.href.startsWith(pathname) : pathname === item.href) ? "text-primary-600" : ""
-              }`}
-            >
-              {item.icon} {item.label}
-            </Link>
-          )
-      )}
-      <Dropdown
-        menu={{
-          items: NavItems?.map((item) => ({
-            key: item.href,
-            label: <Link href={item.href}>{item.label}</Link>,
-          })),
-        }}
-      >
-        <div className="btn md:hidden">
-          <Icons.logo className="mr-2 h-4 w-4" /> <span className="font-bold">Menu</span>
-        </div>
-      </Dropdown>
+    <div className="h-fit rounded-3xl bg-slate-200 px-3.5 py-3 dark:bg-gray-900 flex flex-col gap-2">
+      {screens.md &&
+        NavItems?.map(
+          (item, index) =>
+            item.href && (
+              <Link
+                key={index}
+                href={item.href}
+                className={`flex cursor-pointer select-auto items-center gap-4 px-4 py-3 text-sm rounded-2xl hover:bg-gradient-to-r from-primary-600 hover:text-white ${
+                  (item.href.includes("?") ? item.href.startsWith(pathname) : pathname === item.href) ? "bg-gradient-to-r from-primary-600 text-white" : ""
+                }`}
+              >
+                {item.icon} {item.label}
+              </Link>
+            )
+        )}
     </div>
   );
 }

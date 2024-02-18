@@ -1,10 +1,12 @@
 "use client";
 
 import Icons from "@/components/common/Icons";
-import { Dropdown } from "antd";
+import { Dropdown, Grid } from "antd";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import * as React from "react";
+
+const { useBreakpoint } = Grid;
 
 export interface NavItem {
   key: string;
@@ -13,7 +15,7 @@ export interface NavItem {
   icon: React.ReactNode;
 }
 
-const InfluencerNavItems: NavItem[] = [
+export const InfluencerNavItems: NavItem[] = [
   {
     key: "campaigns",
     href: "/admin/influencer/campaign/list",
@@ -47,19 +49,23 @@ const InfluencerNavItems: NavItem[] = [
 ];
 
 export function SideNav() {
+  const screens = useBreakpoint();
   const pathname = usePathname();
 
   const NavItems = InfluencerNavItems;
+
+  if (screens.xs) return null;
+
   return (
-    <div className="h-fit rounded-3xl bg-slate-200 px-3.5 py-3 dark:bg-gray-900">
+    <div className="h-fit rounded-3xl bg-slate-200 px-3.5 py-3 dark:bg-gray-900 flex flex-col gap-2">
       {NavItems?.map(
         (item, index) =>
           item.href && (
             <Link
               key={index}
               href={item.href}
-              className={`flex cursor-pointer select-auto items-center gap-4 px-2 py-3 text-sm hover:text-primary-600 ${
-                (item.href.includes("?") ? item.href.startsWith(pathname) : pathname === item.href) ? "text-primary-600" : ""
+              className={`flex cursor-pointer select-auto items-center gap-4 px-4 py-3 text-sm rounded-2xl hover:bg-gradient-to-r from-primary-600 hover:text-white ${
+                (item.href.includes("?") ? item.href.startsWith(pathname) : pathname === item.href) ? "bg-gradient-to-r from-primary-600 text-white" : ""
               }`}
             >
               {item.icon} {item.label}

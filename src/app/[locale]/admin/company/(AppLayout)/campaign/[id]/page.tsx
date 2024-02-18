@@ -2,10 +2,11 @@
 
 import { getCampaignById, getCampaignStory, getInfluencerById } from "@/api";
 import { getPlatformName } from "@/components/campaign/detail";
+import SmallCard from "@/components/campaign/detail/small-card";
 import Icons from "@/components/common/Icons";
 import { getUserBasic } from "@/libs/common";
 import { Campaign, Story, User, UserBasic } from "@/libs/types";
-import { Tabs, Image, DatePicker, Modal, Avatar } from "antd";
+import { Tabs, Image, DatePicker, Modal, Avatar, Button } from "antd";
 import dayjs from "dayjs";
 import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
@@ -82,30 +83,23 @@ function CampaignDetail() {
       key: "1",
       children: (
         <div className="space-y-3">
-          <div>
-            <div className="font-semibold">Campaign name</div>
-            <div>{data?.title}</div>
-          </div>
+          <SmallCard title="Campaign name" label={data?.title} />
           {/* <div>
             <div className="font-semibold">Plan type </div>
             <div>{getPlanType(data?.type)}</div>
             <div>{data?.type}</div>
           </div> */}
-          <div>
-            <div className="font-semibold">Platform </div>
-            <div>{getPlatformName(data?.platform_type)}</div>
-          </div>
-          <div>
-            <div className="font-semibold">Start date </div>
-            <div>
-              {data?.start_date_time && data?.end_date_time && (
-                <DatePicker.RangePicker disabled defaultValue={[dayjs(data?.start_date_time, dateFormat), dayjs(data?.end_date_time, dateFormat)]} />
-              )}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="grid gap-3">
+              <SmallCard title="Platform" label={getPlatformName(data?.platform_type)} />
+              <div className="grid grid-cols-2 gap-3">
+                <SmallCard title="Start date" label={data?.start_date_time} />
+                <SmallCard title="End date" label={data?.end_date_time} />
+              </div>
             </div>
-          </div>
-          <div>
-            <div className="font-semibold">Goal purpose</div>
-            <div>{data?.purpose}</div>
+            <div>
+              <SmallCard title="Goal purpose" label={data?.purpose} />
+            </div>
           </div>
         </div>
       ),
@@ -114,17 +108,15 @@ function CampaignDetail() {
       label: "Visuals",
       key: "2",
       children: (
-        <div className="space-y-2">
+        <div className="space-y-3">
+          <SmallCard title="Guidance and explanation" label={data?.guidance} />
+          <SmallCard title="Wordings" label={data?.wording} />
           <div>
-            <div className="font-semibold">Wordings</div>
-            <div>{data?.wording}</div>
-          </div>
-          <div>
-            <div className="font-semibold">Photos</div>
-            <div className="grid grid-cols-5">
+            <div className="text-xl font-medium text-gray-950 dark:text-gray-500 mb-2">Photos</div>
+            <div className="grid md:grid-cols-5">
               {data?.campaign_images.map((img, key) => (
-                <div key={key} className="w-52">
-                  <Image src={img.url} alt="" />
+                <div key={key} className="w-52 !rounded-xl overflow-hidden">
+                  <Image src={img.url} alt="" className="!w-full !h-full" />
                 </div>
               ))}
             </div>
@@ -138,19 +130,33 @@ function CampaignDetail() {
       children: (
         <div className="space-y-2">
           <div>
-            <div className="font-semibold">Posted Stories</div>
+            <div className="text-xl font-medium text-gray-950 dark:text-gray-500 mb-2">Posted Stories</div>
+
             <div className="grid grid-cols-4 md:grid-cols-6 gap-4">
               {storyData?.map((story, index) => (
                 <div
                   key={index}
-                  className="cursor-pointer hover:text-primary-600 space-y-2"
+                  className="group cursor-pointer group-hover:text-primary-600 relative overflow-hidden bg-cover bg-no-repeat rounded-2xl"
                   onClick={() => {
                     setSelectedStory(story);
                     handleModal();
                   }}
                 >
-                  <div className="text-sm">Story {index + 1}</div>
-                  <Image src={story.thumb_path} alt={story.original_link} className="!rounded-md" preview={false} />
+                  {/* <div className="text-sm">Story {index + 1}</div> */}
+                  <div className="">
+                    <Image
+                      src={story.thumb_path}
+                      alt={story.original_link}
+                      className="!h-full group-hover:opacity-100 transition duration-300 ease-in-out group-hover:scale-110"
+                      preview={false}
+                    />
+                    <div className="absolute top-2/4 left-1/3 z-10 invisible group-hover:visible">
+                      <Button shape="round" type="primary">
+                        Detail
+                      </Button>
+                    </div>
+                    <div className="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-gray-950 bg-fixed opacity-0 transition duration-300 ease-in-out group-hover:opacity-50"></div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -162,12 +168,20 @@ function CampaignDetail() {
 
   return (
     <div>
-      <div>Campaign</div>
+      <div className="text-2xl font-semibold text-gray-950 dark:text-white">Campaign</div>
       <div>
         <Tabs items={items} />
       </div>
       <Modal title="Submitted story" width={700} open={modal} onCancel={handleModal} footer={null}>
         <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <div>
+              <div className="font-semibold">Story image:</div>
+              <div className="rounded-2xl overflow-hidden h-96">
+                <Image src={selectedStory?.thumb_path} alt="thumb" className="w-full" />
+              </div>
+            </div>
+          </div>
           <div className="space-y-2">
             <div>
               <div className="font-semibold">Posted Influencer:</div>
@@ -176,13 +190,6 @@ function CampaignDetail() {
                 <span className="font-medium">{selectedStoryInfluencer?.first_name + " " + selectedStoryInfluencer?.last_name}</span>
               </div>
             </div>
-
-            <div>
-              <div className="font-semibold">Story image:</div>
-              <Image src={selectedStory?.thumb_path} alt="thumb" className="w-full" />
-            </div>
-          </div>
-          <div className="space-y-2">
             {selectedStory?.original_link && (
               <div>
                 <div className="font-semibold">Story link:</div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { getInfluencerList } from "@/api";
+import SmallCard from "@/components/campaign/detail/small-card";
 import Icons from "@/components/common/Icons";
 import { User } from "@/libs/types";
 import { Image, Avatar, Button, Modal, Spin, Table, notification } from "antd";
@@ -87,7 +88,7 @@ const AdminHomePage = () => {
             <Spin />
           </div>
         )}
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-6">
           {dataSource.map((item, index) => (
             <div className="flex gap-6 rounded-2xl bg-slate-200 p-6 dark:bg-gray-900" key={index}>
               <Avatar src="https://d2u8k2ocievbld.cloudfront.net/memojis/male/1.png" size={68} />

@@ -82,8 +82,8 @@ export default function CampaignSteps() {
 
   return (
     <div className="grid h-fit items-center gap-8 rounded-3xl bg-slate-200 px-3.5 py-6 dark:bg-gray-900">
-      {items.map((item) => (
-        <div key={item.key}>
+      {items.map((item, index) => (
+        <div key={index}>
           <div className="flex items-center gap-3 px-2 cursor-pointer" onClick={() => handleStep(item)}>
             {item.isChecked ? <Icons.CheckCircle2Icon color="#B5D43B" /> : <Icons.Check color="#8C8C8C" />}
             <span className="hidden md:block">{item.label}</span>

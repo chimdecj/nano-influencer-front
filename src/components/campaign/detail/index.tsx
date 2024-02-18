@@ -1,6 +1,7 @@
 "use client";
 
 import { getCampaignStatusTag } from "../list";
+import SmallCard from "./small-card";
 import { API_URL, createCampaignStory, getCampaignById, getCampaignStory } from "@/api";
 import Icons from "@/components/common/Icons";
 import ImageUpload from "@/components/common/ImageUpload";
@@ -64,29 +65,15 @@ function CampaignDetail({ id }: { id: string }) {
 
   const renderDetail = () => {
     return (
-      <div className="space-y-4">
-        <h2>
-          <b>Campaign name:</b>
-          <br />
-          {data?.title}
-        </h2>
-        <h2>
-          <b>Platform:</b>
-          <br />
-          {getPlatformName(data?.platform_type)}
-        </h2>
-        <h2>
-          <b>Start end date:</b> <br />
-          {data?.start_date_time && data?.end_date_time && (
-            <DatePicker.RangePicker disabled defaultValue={[dayjs(data?.start_date_time, dateFormat), dayjs(data?.end_date_time, dateFormat)]} />
-          )}
-        </h2>
-        <h2>Duration: {renderDuration([data?.start_date_time, data?.end_date_time])}</h2>
-        <h2>
-          Goal purpose: <br />
-          {data?.purpose}
-        </h2>
-        {/* <div className="bg-[#333] py-5 px-4 text-gray-700 rounded-3xl">{data?.purpose}</div> */}
+      <div className="space-y-3">
+        <SmallCard title="Campaign name" label={data?.title} />
+        <SmallCard title="Platform" label={getPlatformName(data?.platform_type)} />
+        <div className="grid grid-cols-3 gap-3">
+          <SmallCard title="Start date" label={data?.start_date_time} />
+          <SmallCard title="End date" label={data?.end_date_time} />
+          <SmallCard title="Duration" label={renderDuration([data?.start_date_time, data?.end_date_time])} />
+        </div>
+        <SmallCard title="Goal purpose" label={<span className="text-base">{data?.purpose}</span>} />
       </div>
     );
   };
@@ -130,17 +117,14 @@ function CampaignDetail({ id }: { id: string }) {
       label: "Visuals",
       children: (
         <div className="space-y-2">
-          <h2>
-            <b>Wording:</b>
-          </h2>
-          <div className="bg-[#333] py-5 px-4 text-gray-700 rounded-3xl">{data?.wording}</div>
-          <h2>
-            <b>Photos:</b>
-          </h2>
-          <div className="flex gap-3 items-center">
-            {data?.campaign_images.map((img, index) => {
-              return <Image key={index} src={img.url} alt="" width={200} />;
-            })}
+          <SmallCard title="Wording" label={data?.wording} />
+          <div>
+            <div className="text-xl font-medium text-gray-950 dark:text-gray-500 mb-2">Photos</div>
+            <div className="flex gap-3 items-center">
+              {data?.campaign_images.map((img, index) => {
+                return <Image key={index} src={img.url} alt="" width={200} className="rounded-2xl" />;
+              })}
+            </div>
           </div>
         </div>
       ),
@@ -247,9 +231,9 @@ function CampaignDetail({ id }: { id: string }) {
 
   return (
     <div>
-      <div className="flex gap-2">
-        <h2>Campaign detail</h2>
-        {getCampaignStatusTag(data?.status as number)}
+      <div className="flex gap-4 items-center">
+        <div className="font-semibold text-2xl">Campaign</div>
+        <div>{getCampaignStatusTag(data?.status as number)}</div>
       </div>
       <Tabs items={items} />
       <Modal title="Submitted story" width={650} open={modal} onCancel={handleModal}>

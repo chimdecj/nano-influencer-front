@@ -51,7 +51,7 @@ function Header() {
               Login
             </div>
           )}
-          <ThemeToggle />
+          {/* <ThemeToggle /> */}
         </div>
       </div>
       <div className="md:hidden">
