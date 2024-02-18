@@ -91,15 +91,14 @@ const AdminHomePage = () => {
         <div className="grid md:grid-cols-3 gap-6">
           {dataSource.map((item, index) => (
             <div className="flex gap-6 rounded-2xl bg-slate-200 p-6 dark:bg-gray-900" key={index}>
-              <Avatar src="https://d2u8k2ocievbld.cloudfront.net/memojis/male/1.png" size={68} />
+              <div className="w-16 h-16">
+                <Avatar src={item.image_url} size={64} />
+              </div>
               <div className="grid gap-2">
                 <span>{`${item.first_name} ${item.last_name}`}</span>
-                <Link href="/admin/company/user/1" className="no-underline">
-                  View details
-                </Link>
                 <Button
-                  ghost
                   icon={<Icons.FileSearch2 size={12} />}
+                  type="primary"
                   shape="round"
                   onClick={() => {
                     setUser(item);
@@ -116,7 +115,7 @@ const AdminHomePage = () => {
       <Modal title="Influencer" open={modal} onCancel={handleModal} footer={null}>
         <dl className="grid grid-cols-3">
           <div className="col-span-1">
-            <Image src="https://d2u8k2ocievbld.cloudfront.net/memojis/male/1.png" alt="" className="w-12 h-12" />
+            <Image src={user?.image_url} alt="" className="w-12 h-12" />
           </div>
           <div className="col-span-2">
             <div className="py-2 gap-4">

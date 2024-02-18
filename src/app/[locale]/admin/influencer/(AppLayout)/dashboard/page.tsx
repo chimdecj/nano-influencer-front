@@ -81,7 +81,9 @@ const InfluencerDashboard = () => {
         <div className="grid grid-cols-3 gap-6">
           {influencerList.map((item, index) => (
             <div className="flex gap-6 rounded-2xl bg-slate-200 p-6 dark:bg-gray-900" key={index}>
-              <Avatar src="https://d2u8k2ocievbld.cloudfront.net/memojis/male/1.png" size={68} />
+              <div className="w-16 h-16">
+                <Avatar src={item.image_url} size={64} />
+              </div>
               <div className="grid gap-2">
                 <span>{`${item.first_name} ${item.last_name}`}</span>
                 <Link href="/admin/company/user/1" className="no-underline">
