@@ -89,8 +89,8 @@ function CampaignDetail() {
             <div>{getPlanType(data?.type)}</div>
             <div>{data?.type}</div>
           </div> */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="grid gap-3">
+          <div className="grid grid-cols-2 gap-3 items-start">
+            <div className="grid gap-3 items-start">
               <SmallCard title="Platform" label={getPlatformName(data?.platform_type)} />
               <div className="grid grid-cols-2 gap-3">
                 <SmallCard title="Start date" label={data?.start_date_time} />
@@ -98,7 +98,7 @@ function CampaignDetail() {
               </div>
             </div>
             <div>
-              <SmallCard title="Goal purpose" label={data?.purpose} />
+              <SmallCard title="Goal purpose" label={<span className="">{data?.purpose}</span>} />
             </div>
           </div>
         </div>
