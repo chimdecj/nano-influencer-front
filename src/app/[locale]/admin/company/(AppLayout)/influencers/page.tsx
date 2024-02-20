@@ -3,6 +3,7 @@
 import { getInfluencerList } from "@/api";
 import SmallCard from "@/components/campaign/detail/small-card";
 import Icons from "@/components/common/Icons";
+import InfluencerProfile, { getGender } from "@/components/influencer/profile";
 import { User } from "@/libs/types";
 import { Image, Avatar, Button, Modal, Spin, Table, notification } from "antd";
 import Link from "next/link";
@@ -42,16 +43,6 @@ const AdminHomePage = () => {
     },
   ];
 
-  const getGender = (value: number) => {
-    switch (value) {
-      case 0:
-        return "Male";
-      case 1:
-        return "Female";
-      default:
-        return "Unknown";
-    }
-  };
   const getData = () => {
     try {
       setLoading(true);
@@ -112,30 +103,8 @@ const AdminHomePage = () => {
           ))}
         </div>
       </div>
-      <Modal title="Influencer" open={modal} onCancel={handleModal} footer={null}>
-        <dl className="grid grid-cols-3">
-          <div className="col-span-1">
-            <Image src={user?.image_url} alt="" className="w-12 h-12" />
-          </div>
-          <div className="col-span-2">
-            <div className="py-2 gap-4">
-              <dt className="text-sm font-semibold text-gray-500">Full name</dt>
-              <dd className="mt-1 text-sm text-gray-900 dark:text-gray-500 sm:mt-0 sm:col-span-2">{`${user?.first_name} ${user?.last_name}`}</dd>
-            </div>
-            <div className="py-2 gap-4">
-              <dt className="text-sm font-semibold text-gray-500">Email address</dt>
-              <dd className="mt-1 text-sm text-gray-900 dark:text-gray-500 sm:mt-0 sm:col-span-2">{user?.email}</dd>
-            </div>
-            <div className="py-2 gap-4">
-              <dt className="text-sm font-semibold text-gray-500">Phone number</dt>
-              <dd className="mt-1 text-sm text-gray-900 dark:text-gray-500 sm:mt-0 sm:col-span-2">{user?.phonenumber}</dd>
-            </div>
-            <div className="py-2 gap-4">
-              <dt className="text-sm font-semibold text-gray-500">Gender</dt>
-              <dd className="mt-1 text-sm text-gray-900 dark:text-gray-500 sm:mt-0 sm:col-span-2">{getGender(user?.gender as number)}</dd>
-            </div>
-          </div>
-        </dl>
+      <Modal title="Influencer profile" open={modal} onCancel={handleModal} footer={null}>
+        {user && <InfluencerProfile user={user} />}
       </Modal>
     </div>
   );

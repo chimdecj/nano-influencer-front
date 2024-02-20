@@ -54,11 +54,11 @@ export default function CampaignLayout({ children }: { children: React.ReactNode
     <div className="h-full bg-white dark:bg-gray-1000 overflow-auto">
       <SiteHeader />
       <main>
-        <div className="grid grid-cols-5 gap-6 p-5 md:p-10">
+        <div className="grid md:grid-cols-5 gap-6 p-5 md:p-10 overflow-auto">
           <div className="space-y-4">
             <CampaignSteps />
           </div>
-          <div className="col-span-4">
+          <div className="col-span-4 rounded-3xl p-4 bg-slate-200 dark:bg-transparent">
             <div className="max-w-4xl m-auto">
               <h1>Create new campaign</h1>
               <Progress percent={(items.filter((i) => i.isChecked == true).length / items.length) * 100} strokeColor="#B5D43B" />

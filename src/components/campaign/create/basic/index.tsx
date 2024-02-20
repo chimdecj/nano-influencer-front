@@ -126,7 +126,7 @@ const CreateCampaignBasic = () => {
         <Input placeholder="Write your campaign name" />
       </Form.Item>
       <Form.Item label="Choose your social media" name="platform" rules={[{ required: true }]}>
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-6">
           {socialMedias.map((item, index) => (
             <SelectCard
               key={index}
@@ -140,7 +140,7 @@ const CreateCampaignBasic = () => {
         </div>
       </Form.Item>
       <Form.Item label="Choose your plan" name="type" rules={[{ required: true }]}>
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-6">
           {plans.map((item, index) => (
             <SelectCard key={index} onChange={() => form.setFieldValue("type", item.id)} title={item.title} icon={item.icon} desc={item.desc} isSelected={type === item.id} />
           ))}

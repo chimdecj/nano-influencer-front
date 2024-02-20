@@ -1,3 +1,13 @@
+export interface SocialAccount {
+  account_image: string;
+  account_profile: string;
+  account_type: number;
+  id: number;
+  inf_id: number;
+  last_updated: string;
+  total_followers: number;
+}
+
 export interface User {
   id: string | number;
   username: string;
@@ -13,7 +23,7 @@ export interface User {
   last_name: string;
   phonenumber: string;
   profession: string;
-  socialAccounts: any[];
+  socialAccounts: SocialAccount[];
   work_address: string;
   work_name: string;
   work_position: string;

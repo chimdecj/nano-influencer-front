@@ -27,7 +27,7 @@ function CreateCampaignSubmit() {
   return (
     <div>
       <h2 className="text-gray-700 text-base my-4">Agreement</h2>
-      <div className="bg-gray-900 p-5 rounded-3xl max-h-[500px] overflow-auto">
+      <div className="bg-white dark:bg-gray-900 p-5 rounded-3xl max-h-[500px] overflow-auto">
         <span className="text-gray-700 text-base">{agreementText}</span>
       </div>
       <div className="flex justify-between py-5">

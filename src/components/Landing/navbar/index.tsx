@@ -5,6 +5,7 @@ import ThemeToggle from "@/components/settings/ThemeToggle";
 import { Avatar, Dropdown } from "antd";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -14,16 +15,24 @@ function Header() {
 
   const items = [
     {
-      key: "1",
-      label: <a rel="noopener noreferrer">My profile</a>,
+      key: "about",
+      label: <a rel="noopener noreferrer">about us</a>,
     },
     {
-      key: "2",
+      key: "service",
+      label: <a rel="noopener noreferrer">service</a>,
+    },
+    {
+      key: "clients",
+      label: <a rel="noopener noreferrer">clients</a>,
+    },
+    {
+      key: "login",
       label: (
-        <a rel="noopener noreferrer" className="flex items-center gap-3" onClick={() => signOut()}>
-          <Icons.LogOutIcon size={16} />
-          Log out
-        </a>
+        <Link href={'/login'} className="flex items-center gap-3" >
+          <Icons.LogIn size={16} />
+          Login
+        </Link>
       ),
     },
   ];

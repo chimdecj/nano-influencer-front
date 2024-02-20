@@ -7,7 +7,7 @@ import Icons from "@/components/common/Icons";
 import ImageUpload from "@/components/common/ImageUpload";
 import { getUserBasic } from "@/libs/common";
 import { Campaign, Story, UserBasic } from "@/libs/types";
-import { Avatar, Button, DatePicker, Empty, Form, Image, Input, List, Modal, Spin, Tabs, TabsProps, Tag } from "antd";
+import { Avatar, Button, Empty, Form, Image, Input, List, Modal, Spin, Tabs, TabsProps, notification } from "antd";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -17,7 +17,7 @@ import weekYear from "dayjs/plugin/weekYear";
 import weekday from "dayjs/plugin/weekday";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 dayjs.extend(customParseFormat);
 dayjs.extend(advancedFormat);
@@ -48,8 +48,6 @@ function CampaignDetail({ id }: { id: string }) {
   const [form] = Form.useForm();
   const [storyList, setStoryList] = useState<Story[]>([]);
 
-  const dateFormat = "YYYY-MM-DD";
-
   useEffect(() => {
     const userBasic = getUserBasic();
     setUserBasic(userBasic);
@@ -64,11 +62,18 @@ function CampaignDetail({ id }: { id: string }) {
   };
 
   const renderDetail = () => {
+    if (loading)
+      return (
+        <div className="text-center">
+          <Spin />
+        </div>
+      );
+
     return (
       <div className="space-y-3">
         <SmallCard title="Campaign name" label={data?.title} />
         <SmallCard title="Platform" label={getPlatformName(data?.platform_type)} />
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           <SmallCard title="Start date" label={data?.start_date_time} />
           <SmallCard title="End date" label={data?.end_date_time} />
           <SmallCard title="Duration" label={renderDuration([data?.start_date_time, data?.end_date_time])} />
@@ -95,10 +100,23 @@ function CampaignDetail({ id }: { id: string }) {
         campaign_id: id,
         inf_id: userBasic.inf_id,
         ...values,
-      }).then((res) => {
-        setSubmitLoading(false);
-        getStories();
-      });
+      })
+        .then((res) => {
+          setSubmitLoading(false);
+          getStories();
+          if (res.detail) {
+            notification.info({
+              message: res.detail,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log("err");
+          console.log(err);
+          notification.error({
+            message: "Error",
+          });
+        });
     }
   };
 

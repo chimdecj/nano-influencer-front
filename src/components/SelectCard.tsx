@@ -20,7 +20,7 @@ const SelectCard = ({
 }) => {
   return (
     <div
-      className={`flex items-center justify-between rounded-[26px] bg-slate-200 dark:bg-gray-900 p-6 ${isSelected ? "!bg-primary-600 text-black" : "text-white"} ${
+      className={`flex items-center justify-between rounded-[26px] bg-white dark:bg-gray-900 p-6 ${isSelected ? "!bg-primary-600 text-black" : "text-gray-950 dark:text-white"} ${
         disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
       }`}
       onClick={() => !disabled && onChange()}

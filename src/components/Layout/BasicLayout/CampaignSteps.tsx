@@ -81,7 +81,7 @@ export default function CampaignSteps() {
   }, [id, pathname]);
 
   return (
-    <div className="grid h-fit items-center gap-8 rounded-3xl bg-slate-200 px-3.5 py-6 dark:bg-gray-900">
+    <div className="hidden md:grid h-fit items-center gap-8 rounded-3xl bg-slate-200 px-3.5 py-6 dark:bg-gray-900">
       {items.map((item, index) => (
         <div key={index}>
           <div className="flex items-center gap-3 px-2 cursor-pointer" onClick={() => handleStep(item)}>
