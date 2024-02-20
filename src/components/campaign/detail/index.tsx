@@ -139,6 +139,11 @@ function CampaignDetail({ id }: { id: string }) {
           <SmallCard title="Wordings" label={data?.wording} />
           <div>
             <div className="text-xl font-medium text-gray-950 dark:text-gray-500 mb-2">Photos</div>
+            {data?.campaign_images.length === 0 && (
+              <div className="text-center">
+                <Empty />
+              </div>
+            )}
             <div className="flex flex-wrap gap-4">
               {data?.campaign_images.map((img, key) => (
                 <div key={key} className="w-44 h-44 !rounded-xl overflow-hidden">

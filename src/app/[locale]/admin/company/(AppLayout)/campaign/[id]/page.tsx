@@ -6,7 +6,7 @@ import SmallCard from "@/components/campaign/detail/small-card";
 import Icons from "@/components/common/Icons";
 import { getUserBasic } from "@/libs/common";
 import { Campaign, Story, User, UserBasic } from "@/libs/types";
-import { Tabs, Image, DatePicker, Modal, Avatar, Button } from "antd";
+import { Tabs, Image, DatePicker, Modal, Avatar, Button, Spin, Empty } from "antd";
 import dayjs from "dayjs";
 import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
@@ -103,6 +103,11 @@ function CampaignDetail() {
           <SmallCard title="Wordings" label={data?.wording} />
           <div>
             <div className="text-xl font-medium text-gray-950 dark:text-gray-500 mb-2">Photos</div>
+            {data?.campaign_images.length === 0 && (
+              <div className="text-center">
+                <Empty />
+              </div>
+            )}
             <div className="flex flex-wrap gap-4">
               {data?.campaign_images.map((img, key) => (
                 <div key={key} className="w-44 h-44 !rounded-xl overflow-hidden">
@@ -133,14 +138,22 @@ function CampaignDetail() {
                   }}
                 >
                   {/* <div className="text-sm">Story {index + 1}</div> */}
-                  <div className="">
+                  <div className="h-full">
                     <Image
                       src={story.thumb_path}
                       alt={story.original_link}
-                      className="!h-full group-hover:opacity-100 transition duration-300 ease-in-out group-hover:scale-110"
+                      className="transition duration-300 ease-in-out group-hover:opacity-100 group-hover:scale-110"
                       preview={false}
+                      width="100%"
+                      height="100%"
                     />
-                    <div className="absolute top-2/4 left-1/3 z-10 invisible group-hover:visible">
+                    <div className="bg-gradient-to-t from-gray-950 absolute bottom-0 left-0 right-0 z-30 w-full h-10">
+                      <div className="flex items-center gap-2 z-20 absolute bottom-2 left-2 overflow-auto">
+                        <Avatar src={selectedStoryInfluencer?.image_url} size={32} />
+                        <span>{selectedStoryInfluencer?.first_name + " " + selectedStoryInfluencer?.last_name}</span>
+                      </div>
+                    </div>
+                    <div className="absolute top-2/4 left-1/3 z-10 hidden group-hover:block">
                       <Button shape="round" type="primary">
                         Detail
                       </Button>
