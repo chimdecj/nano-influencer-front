@@ -124,6 +124,7 @@ function UserSetting() {
           <Col span={24}>
             <Form.Item label="Profile Image" name="image_url" rules={[{ required: true }]}>
               <ImageUpload
+                aspect={1/1}
                 maxCount={1}
                 multiple={false}
                 defaultImages={

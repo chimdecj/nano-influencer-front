@@ -60,27 +60,33 @@ function InfluencerAssignedCampaignList() {
       title: "Created date",
       dataIndex: "created_date",
       key: "created_date",
+      render: (created_date: string) => {
+        return moment(created_date).format("YYYY-MM-DD HH:mm:ss");
+      },
       sorter: (a: any, b: any) => {
         return moment(a.created_date).unix() - moment(b.created_date).unix();
       },
     },
     {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (platform_type: number) => {
-        switch (platform_type) {
-          case 0:
-            return <Tag color="volcano">Draft</Tag>;
-          case 1:
-            return <Tag color="blue">Submitted</Tag>;
-          case 2:
-            return <Tag color="green">Active</Tag>;
-          case 3:
-            return <Tag color="red">Finished</Tag>;
-          default:
-            return <div></div>;
-        }
+      title: "Start date",
+      dataIndex: "start_date_time",
+      key: "start_date_time",
+      render: (created_date: string) => {
+        return moment(created_date).format("YYYY-MM-DD");
+      },
+      sorter: (a: any, b: any) => {
+        return moment(a.created_date).unix() - moment(b.created_date).unix();
+      },
+    },
+    {
+      title: "End date",
+      dataIndex: "end_date_time",
+      key: "end_date_time",
+      render: (date: string) => {
+        return moment(date).format("YYYY-MM-DD");
+      },
+      sorter: (a: any, b: any) => {
+        return moment(a.created_date).unix() - moment(b.created_date).unix();
       },
     },
     {

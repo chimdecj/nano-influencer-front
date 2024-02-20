@@ -37,6 +37,14 @@ export const getPlatformName = (type: any) => {
   }
 };
 
+export const renderDuration = (date: any[]) => {
+  if (date?.length) {
+    const Difference_In_Time = new Date(date[1]).getTime() - new Date(date[0]).getTime();
+    const Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+    return <span>{Difference_In_Days} days</span>;
+  }
+};
+
 function CampaignDetail({ id }: { id: string }) {
   const searchParams = useSearchParams();
   const [data, setData] = useState<Campaign>();
@@ -52,14 +60,6 @@ function CampaignDetail({ id }: { id: string }) {
     const userBasic = getUserBasic();
     setUserBasic(userBasic);
   }, []);
-
-  const renderDuration = (date: any[]) => {
-    if (date?.length) {
-      const Difference_In_Time = new Date(date[1]).getTime() - new Date(date[0]).getTime();
-      const Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-      return <span>{Difference_In_Days} days</span>;
-    }
-  };
 
   const renderDetail = () => {
     if (loading)
@@ -134,14 +134,17 @@ function CampaignDetail({ id }: { id: string }) {
       key: "3",
       label: "Visuals",
       children: (
-        <div className="space-y-2">
-          <SmallCard title="Wording" label={data?.wording} />
+        <div className="space-y-3">
+          <SmallCard title="Guidance and explanation" label={data?.guidance} />
+          <SmallCard title="Wordings" label={data?.wording} />
           <div>
             <div className="text-xl font-medium text-gray-950 dark:text-gray-500 mb-2">Photos</div>
-            <div className="flex gap-3 items-center">
-              {data?.campaign_images.map((img, index) => {
-                return <Image key={index} src={img.url} alt="" width={200} className="rounded-2xl" />;
-              })}
+            <div className="flex flex-wrap gap-4">
+              {data?.campaign_images.map((img, key) => (
+                <div key={key} className="w-44 h-44 !rounded-xl overflow-hidden">
+                  <Image src={img.url} alt="" width="100%" height="100%" />
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -167,7 +170,6 @@ function CampaignDetail({ id }: { id: string }) {
               <div className="grid grid-cols-2">
                 <Form.Item label="Story screen shot" name="thumb_path" rules={[{ required: true }]}>
                   <ImageUpload
-                    aspect={1 / 2}
                     maxCount={1}
                     multiple={false}
                     defaultImages={[]}

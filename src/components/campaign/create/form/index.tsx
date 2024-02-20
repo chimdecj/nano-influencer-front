@@ -126,7 +126,7 @@ const CreateCampaignForm = () => {
         <Input.TextArea placeholder="Describe what is your campaign about" />
       </Form.Item>
       <Form.Item label="Visuals" name="campaign_images" rules={[{ required: false }]}>
-        <ImageUpload defaultImages={campaign_images} uploadUrl={`${API_URL}/campaign/upload_image?campaign_id=${id}`} />
+        <ImageUpload multiple defaultImages={campaign_images} uploadUrl={`${API_URL}/campaign/upload_image?campaign_id=${id}`} />
       </Form.Item>
       <Form.Item label="Wording" name="wording" rules={[{ required: true }]}>
         <Input.TextArea placeholder="What is your wording" />

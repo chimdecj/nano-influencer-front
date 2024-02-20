@@ -1,7 +1,7 @@
 "use client";
 
 import { getCampaignById, getCampaignStory, getInfluencerById } from "@/api";
-import { getPlatformName } from "@/components/campaign/detail";
+import { getPlatformName, renderDuration } from "@/components/campaign/detail";
 import SmallCard from "@/components/campaign/detail/small-card";
 import Icons from "@/components/common/Icons";
 import { getUserBasic } from "@/libs/common";
@@ -84,23 +84,13 @@ function CampaignDetail() {
       children: (
         <div className="space-y-3">
           <SmallCard title="Campaign name" label={data?.title} />
-          {/* <div>
-            <div className="font-semibold">Plan type </div>
-            <div>{getPlanType(data?.type)}</div>
-            <div>{data?.type}</div>
-          </div> */}
-          <div className="grid md:grid-cols-2 gap-3 items-start">
-            <div className="grid gap-3 items-start">
-              <SmallCard title="Platform" label={getPlatformName(data?.platform_type)} />
-              <div className="grid grid-cols-2 gap-3">
-                <SmallCard title="Start date" label={data?.start_date_time} />
-                <SmallCard title="End date" label={data?.end_date_time} />
-              </div>
-            </div>
-            <div>
-              <SmallCard title="Goal purpose" label={<span className="">{data?.purpose}</span>} />
-            </div>
+          <SmallCard title="Platform" label={getPlatformName(data?.platform_type)} />
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <SmallCard title="Start date" label={data?.start_date_time} />
+            <SmallCard title="End date" label={data?.end_date_time} />
+            <SmallCard title="Duration" label={renderDuration([data?.start_date_time, data?.end_date_time])} />
           </div>
+          <SmallCard title="Goal purpose" label={<span className="text-base">{data?.purpose}</span>} />
         </div>
       ),
     },
@@ -113,10 +103,10 @@ function CampaignDetail() {
           <SmallCard title="Wordings" label={data?.wording} />
           <div>
             <div className="text-xl font-medium text-gray-950 dark:text-gray-500 mb-2">Photos</div>
-            <div className="grid md:grid-cols-5">
+            <div className="flex flex-wrap gap-4">
               {data?.campaign_images.map((img, key) => (
-                <div key={key} className="w-52 !rounded-xl overflow-hidden">
-                  <Image src={img.url} alt="" className="!w-full !h-full" />
+                <div key={key} className="w-44 h-44 !rounded-xl overflow-hidden">
+                  <Image src={img.url} alt="" width="100%" height="100%" />
                 </div>
               ))}
             </div>
