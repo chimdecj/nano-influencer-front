@@ -64,9 +64,7 @@ const AdminHomePage = () => {
           <h2 className="text-5xl font-medium text-gradient-to-r from-indigo-500">Take control of your performance marketing</h2>
           <p className="text-2xl">Manage and track your influencer affiliate marketing programs with ease</p>
         </div>
-        <div className="col-span-1">
-          <Image src="/circle.png" alt="logo" preview={false} />
-        </div>
+        <div className="col-span-1"></div>
       </div>
       {/* <div>
         <h2 className="text-2xl font-medium">Influencers</h2>

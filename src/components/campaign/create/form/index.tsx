@@ -132,7 +132,7 @@ const CreateCampaignForm = () => {
         <Input.TextArea placeholder="What is your wording" />
       </Form.Item>
       <Form.Item label="Guidance and explanation" name="guidance" rules={[{ required: true }]}>
-        <Input.TextArea placeholder="What is your wording" />
+        <Input.TextArea placeholder="Describe guidance and explanation" />
       </Form.Item>
       <div className="text-right">
         <Button type="primary" htmlType="submit" shape="round" size="large" loading={submitLoading}>
