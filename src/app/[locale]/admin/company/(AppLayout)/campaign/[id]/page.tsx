@@ -126,43 +126,48 @@ function CampaignDetail() {
         <div className="space-y-2">
           <div>
             <div className="text-xl font-medium text-gray-950 dark:text-gray-500 mb-2">Posted Stories</div>
-
-            <div className="grid grid-cols-4 md:grid-cols-6 gap-4">
-              {storyData?.map((story, index) => (
-                <div
-                  key={index}
-                  className="group cursor-pointer group-hover:text-primary-600 relative overflow-hidden bg-cover bg-no-repeat rounded-2xl"
-                  onClick={() => {
-                    setSelectedStory(story);
-                    handleModal();
-                  }}
-                >
-                  {/* <div className="text-sm">Story {index + 1}</div> */}
-                  <div className="h-full">
-                    <Image
-                      src={story.thumb_path}
-                      alt={story.original_link}
-                      className="transition duration-300 ease-in-out group-hover:opacity-100 group-hover:scale-110"
-                      preview={false}
-                      width="100%"
-                      height="100%"
-                    />
-                    <div className="bg-gradient-to-t from-gray-950 absolute bottom-0 left-0 right-0 z-30 w-full h-10">
-                      <div className="flex items-center gap-2 z-20 absolute bottom-2 left-2 overflow-auto">
-                        <Avatar src={selectedStoryInfluencer?.image_url} size={32} />
-                        <span>{selectedStoryInfluencer?.first_name + " " + selectedStoryInfluencer?.last_name}</span>
+            {storyData?.length === 0 ? (
+              <div className="text-center p-5">
+                <Empty description="No posted stories" />
+              </div>
+            ) : (
+              <div className="grid grid-cols-4 md:grid-cols-6 gap-4">
+                {storyData?.map((story, index) => (
+                  <div
+                    key={index}
+                    className="group cursor-pointer group-hover:text-primary-600 relative overflow-hidden bg-cover bg-no-repeat rounded-2xl"
+                    onClick={() => {
+                      setSelectedStory(story);
+                      handleModal();
+                    }}
+                  >
+                    {/* <div className="text-sm">Story {index + 1}</div> */}
+                    <div className="h-full">
+                      <Image
+                        src={story.thumb_path}
+                        alt={story.original_link}
+                        className="transition duration-300 ease-in-out group-hover:opacity-100 group-hover:scale-110"
+                        preview={false}
+                        width="100%"
+                        height="100%"
+                      />
+                      <div className="bg-gradient-to-t from-gray-950 absolute bottom-0 left-0 right-0 z-30 w-full h-10">
+                        <div className="flex items-center gap-2 z-20 absolute bottom-2 left-2 overflow-auto">
+                          <Avatar src={selectedStoryInfluencer?.image_url} size={32} />
+                          <span>{selectedStoryInfluencer?.first_name + " " + selectedStoryInfluencer?.last_name}</span>
+                        </div>
                       </div>
+                      <div className="absolute top-2/4 left-1/3 z-10 hidden group-hover:block">
+                        <Button shape="round" type="primary">
+                          Detail
+                        </Button>
+                      </div>
+                      <div className="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-gray-950 bg-fixed opacity-0 transition duration-300 ease-in-out group-hover:opacity-50"></div>
                     </div>
-                    <div className="absolute top-2/4 left-1/3 z-10 hidden group-hover:block">
-                      <Button shape="round" type="primary">
-                        Detail
-                      </Button>
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-gray-950 bg-fixed opacity-0 transition duration-300 ease-in-out group-hover:opacity-50"></div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       ),

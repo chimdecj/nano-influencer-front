@@ -1,9 +1,8 @@
 "use client";
 
 import { getMeData, signIn } from "@/api";
-import Icons from "@/components/common/Icons";
 import { setUserBasic } from "@/libs/common";
-import { Button, Divider, Form, Input, notification } from "antd";
+import { Button, Form, Input, notification } from "antd";
 import { setCookie } from "cookies-next";
 import { signIn as nextAuthSignIn } from "next-auth/react";
 import Image from "next/image";
@@ -74,7 +73,7 @@ function Login() {
   return (
     <div className="stripe-container d-flex flex-column justify-content-center w-100 h-100 min-h-screen">
       <div className="container !min-h-screen py-6 flex flex-col justify-center items-center">
-        <div className="bg-slate-50 bg-opacity-20 rounded-2xl py-20 px-10 md:px-28">
+        <div className="bg-slate-50 bg-opacity-20 rounded-2xl py-20 px-10 md:px-24 max-w-[490px]">
           <div className="mb-10 flex justify-center">
             <Image alt="logo" src="/logo.svg" width={163} height={32} />
           </div>
