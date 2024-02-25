@@ -13,7 +13,7 @@ export function SiteHeader() {
   const screens = useBreakpoint();
 
   return (
-    <header className="top-0 z-40 w-full border-b border-b-slate-200 bg-white dark:border-gray-1000 dark:bg-gray-1000">
+    <header className="sticky top-0 z-40 w-full border-b border-b-slate-200 bg-white dark:border-gray-1000 dark:bg-gray-1000">
       <div className="flex h-16 items-center space-x-4 px-5 md:px-10 sm:justify-between sm:space-x-0">
         <div className="md:hidden rounded-xl bg-slate-200 p-1 dark:bg-gray-900">
           <Dropdown

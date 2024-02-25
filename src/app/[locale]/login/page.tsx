@@ -30,6 +30,9 @@ function Login() {
           setCookie("token", data.access_token);
           await new Promise((resolve) => setTimeout(resolve, 500));
           getMeData().then((meData: any) => {
+            notification.success({
+              message: "Login successfully",
+            });
             setLoading(false);
             setUserBasic(meData);
             switch (meData.user_type) {
@@ -73,11 +76,11 @@ function Login() {
   return (
     <div className="stripe-container d-flex flex-column justify-content-center w-100 h-100 min-h-screen">
       <div className="container !min-h-screen py-6 flex flex-col justify-center items-center">
-        <div className="bg-slate-50 bg-opacity-20 rounded-2xl py-20 px-10 md:px-24 max-w-[490px]">
+        <div className="bg-slate-50 bg-opacity-20 rounded-2xl py-20 px-10 md:px-24 md:w-[490px]">
           <div className="mb-10 flex justify-center">
             <Image alt="logo" src="/logo.svg" width={163} height={32} />
           </div>
-          <div className="max-w-xl">
+          <div className="w-full">
             <Form layout="vertical" requiredMark="optional" onFinish={handleAuth}>
               <Form.Item name="username" label="Username" rules={[{ required: true, message: "Please input your username" }]}>
                 <Input placeholder="" />
