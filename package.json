@@ -4,15 +4,15 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "next dev",
-    "start": "next start",
+    "dev": "next dev -p 3030",
+    "start": "next start -p 3030",
     "lint": "next lint",
     "format": "prettier --write \"**/*.{js,ts,tsx,mdx}\" --cache",
     "check": "prettier --check \"**/*.{js,ts,tsx,mdx}\" --cache"
   },
   "dependencies": {
-    "@ant-design/cssinjs": "^1.10.1",
-    "antd": "^5.6.1",
+    "@ant-design/cssinjs": "^1.20.0",
+    "antd": "^5.17.4",
     "antd-img-crop": "^4.21.0",
     "axios": "^1.5.1",
     "clsx": "^1.2.1",

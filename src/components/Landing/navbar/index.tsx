@@ -29,7 +29,7 @@ function Header() {
     {
       key: "login",
       label: (
-        <Link href={'/login'} className="flex items-center gap-3" >
+        <Link href={"/login"} className="flex items-center gap-3">
           <Icons.LogIn size={16} />
           Login
         </Link>
@@ -56,7 +56,7 @@ function Header() {
               </div>
             </Dropdown>
           ) : (
-            <div className="flex cursor-pointer items-center space-x-2 rounded-full bg-white p-[14px] dark:bg-black" onClick={() => router.push("/login")}>
+            <div className="flex cursor-pointer items-center space-x-2 rounded-full bg-white py-3 dark:bg-black px-8 hover:bg-black/40" onClick={() => router.push("/login")}>
               Login
             </div>
           )}

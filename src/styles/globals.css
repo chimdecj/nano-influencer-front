@@ -29,3 +29,8 @@ svg {
     background-position: 0% 50%;
   }
 }
+
+/* global.css or module.css */
+.ant-input {
+  padding: 8px 16px !important;
+}

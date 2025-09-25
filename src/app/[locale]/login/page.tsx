@@ -1,8 +1,9 @@
 "use client";
 
 import { getMeData, signIn } from "@/api";
+import Icons from "@/components/common/Icons";
 import { setUserBasic } from "@/libs/common";
-import { Button, Form, Input, notification } from "antd";
+import { Button, Divider, Form, Input, notification } from "antd";
 import { setCookie } from "cookies-next";
 import { signIn as nextAuthSignIn } from "next-auth/react";
 import Image from "next/image";
@@ -76,26 +77,26 @@ function Login() {
   return (
     <div className="stripe-container d-flex flex-column justify-content-center w-100 h-100 min-h-screen">
       <div className="container !min-h-screen py-6 flex flex-col justify-center items-center">
-        <div className="bg-slate-50 bg-opacity-20 rounded-2xl py-20 px-10 md:px-24 md:w-[490px]">
+        <div className="bg-slate-50 bg-opacity-30 rounded-3xl py-20 px-10 md:px-24 md:w-[490px]">
           <div className="mb-10 flex justify-center">
             <Image alt="logo" src="/logo.svg" width={163} height={32} />
           </div>
           <div className="w-full">
             <Form layout="vertical" requiredMark="optional" onFinish={handleAuth}>
               <Form.Item name="username" label="Username" rules={[{ required: true, message: "Please input your username" }]}>
-                <Input placeholder="" />
+                <Input />
               </Form.Item>
               <Form.Item name="password" label="Password" rules={[{ required: true, message: "Please input your password" }]}>
                 <Input.Password />
               </Form.Item>
               <Form.Item>
-                <Button block htmlType="submit" loading={loading} size="large">
+                <Button block htmlType="submit" loading={loading} size="large" shape="round">
                   Login
                 </Button>
               </Form.Item>
             </Form>
-            {/*<Divider>or</Divider>
-             <div className="flex flex-col space-y-4">
+            <Divider>or</Divider>
+            <div className="flex flex-col space-y-4">
               <div className="justify-center flex cursor-pointer items-center space-x-2 rounded-full bg-white p-[14px] dark:bg-black" onClick={handleAuthFacebook}>
                 <Icons.Facebook />
                 <span>Continue with Facebook</span>
@@ -104,7 +105,7 @@ function Login() {
                 <Icons.AtSign />
                 <span>Continue with Google</span>
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
       </div>

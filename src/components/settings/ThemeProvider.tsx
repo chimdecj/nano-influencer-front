@@ -25,7 +25,14 @@ export function AntdConfigProvider({ children, locale }: ProviderProps) {
           fontFamily: quicksand.style.fontFamily,
           colorPrimary: "#B5D43B",
           colorPrimaryBg: "#B5D43B",
-          borderRadius: 14,
+          borderRadius: 16,
+        },
+        components: {
+          Button: {
+            colorPrimary: "#B5D43B",
+            colorLink: "#B5D43B",
+            colorLinkHover: "#C6DE68",
+          },
         },
       }}
     >

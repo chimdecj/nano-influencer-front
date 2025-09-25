@@ -36,7 +36,7 @@ export const authOptions: NextAuthOptions = {
           let config = {
             method: "post",
             url: "https://8128i5qus3.execute-api.eu-central-1.amazonaws.com/v1/cognito/admin/users/sign-in",
-            origin: "http://localhost:3000",
+            origin: "http://localhost:3030",
             headers: {
               // "Content-Type": "application/x-www-form-urlencoded",
               "Content-Type": "application/json",
