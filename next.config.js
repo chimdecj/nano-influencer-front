@@ -12,6 +12,14 @@ const nextConfig = {
     // Required:
     appDir: true,
   },
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "http://103.195.5.126:8002/:path*",
+      },
+    ];
+  },
 };
 
 module.exports = withNextIntl(nextConfig);

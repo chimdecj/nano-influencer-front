@@ -1,7 +1,7 @@
 import { CampaignInput } from "@/libs/types";
 import { getCookie } from "cookies-next";
 
-export const API_URL = process.env.NEXT_PUBLIC_REST_API_URL;
+export const API_URL = "/api";
 
 // const token = getCookie("token");
 
